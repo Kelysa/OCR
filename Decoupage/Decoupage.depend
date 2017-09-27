@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1506461092 source:c:\users\julie\documents\epita\codeblock\ocr\decoupage\main.c
+	<stdio.h>
+	<stdlib.h>
+

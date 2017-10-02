@@ -19,6 +19,13 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="Detection.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="fonction.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="fonction.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>

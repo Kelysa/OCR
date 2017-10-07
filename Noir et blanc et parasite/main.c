@@ -51,17 +51,17 @@ SDL_Surface* display_image(SDL_Surface *img) {
     errx(1, "Couldn't set %dx%d video mode: %s\n",
          img->w, img->h, SDL_GetError());
   }
- 
+
   /* Blit onto the screen surface */
   if(SDL_BlitSurface(img, NULL, screen, NULL) < 0)
     warnx("BlitSurface error: %s\n", SDL_GetError());
- 
+
   // Update the screen
   SDL_UpdateRect(screen, 0, 0, img->w, img->h);
- 
+
   // wait for a key
   wait_for_keypressed();
- 
+
   // return the screen for further uses
   return screen;
 }
@@ -101,5 +101,44 @@ int main(int arg, char *path[])
   }
   display_image(surface);
   SDL_FreeSurface(surface);
-  
+
+}
+void eraseLonelyPoint(SDL_Surface *ecran)
+{
+  int caseAroundCenter = 1; //For future bigger matrix !
+  int alone = 1;
+
+  for (int j = 0; j < ecran->h; j++)
+  {
+    for (int i = 0; i < ecran->w; i++)
+    {
+      //If it's a black pixel
+      if (getPixel(ecran, i, j) == SDL_MapRGB(ecran->format, 0, 0, 0))
+      {
+        //A pixel is alone while there are no other black pixel around it
+        alone = 1;
+        //The Matrice
+        for (int y = j - caseAroundCenter; y <= j + caseAroundCenter; y++)
+        {
+          for (int x = i - caseAroundCenter; x <= i + caseAroundCenter; x++)
+          {
+            //Not to go out of the screen && not to test the pixel in the center
+            if (y >= 0 && y < ecran->h && x >= 0 && x < ecran->w &&
+                (y != j || x != i) && getPixel(ecran, x, y) == SDL_MapRGB(ecran->format, 0, 0, 0))
+            {
+              alone = 0;
+            }
+          }
+        }
+
+        if (alone) // If it's a lonely point, then it's erased
+        {
+          SDL_LockSurface(ecran);
+          setPixel(ecran, i, j, SDL_MapRGB(ecran->format, 255, 255, 255));
+          SDL_UnlockSurface(ecran);
+        }
+
+      }
+    }
+  }
 }

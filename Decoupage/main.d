@@ -1,1 +1,1 @@
-main.o: main.c pixel_operations.h /usr/include/SDL/SDL.h
+main.o: main.c decoupage.h /usr/include/SDL/SDL.h

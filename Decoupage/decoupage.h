@@ -8,7 +8,7 @@
  
 Uint32 getpixel(SDL_Surface *surface, unsigned x, unsigned y);
 void putpixel(SDL_Surface *surface, unsigned x, unsigned y, Uint32 pixel);
-void decoupage(char *path[]);
+void decoupage(SDL_Surface *surface);
 void drawLines(SDL_Surface *surface, int x, int y);
 void drawBorders(SDL_Surface *surface, int x, int y);
 typedef struct Coordonnees Coordonnees;

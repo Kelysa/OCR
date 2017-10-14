@@ -1,0 +1,23 @@
+## Simple SDL mini code
+
+CC=gcc
+
+CPPFLAGS= `pkg-config --cflags sdl2 sdl` -MMD
+CFLAGS= -Wall -Wextra -std=c99 -O3
+LDFLAGS=
+LDLIBS= `pkg-config --libs sdl2 sdl` -lSDL_image
+
+OBJ= redimensionnement.c
+DEP= ${SRC:.o=.d}
+
+all: redimensionnement
+
+main: ${OBJ}
+
+clean:
+	${RM} ${OBJ} ${DEP} *~
+	${RM} redimensionnement
+
+-include ${DEP}
+
+# END

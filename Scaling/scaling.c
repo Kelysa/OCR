@@ -101,11 +101,14 @@ void display_image(SDL_Surface *img)
 
 void Scaling(SDL_Surface *src, SDL_Surface *dest)
 {
-  int stepx = (int)round(src->w/dest->w), stepy = (int)round(src->h/dest->h);
+  int stepx = (int)round((float)src->w/(float)dest->w), stepy = (int)round((float)src->h/(float)dest->h);
   int cpt = 0;
+  //printf("%d\n", (int)round((float)src->w/(float)dest->w));
   Uint8 r, g, b;
   int tempR = 0, tempG = 0, tempB = 0;
-  //printf("%d\n",stepx);
+  printf("%d\n",stepx);
+
+  SDL_Surface *temp = SDL_CreateRGBSurface(0, 200, src->h, 32, 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
   
   for (int i = 0; i < src->h; i++)
     {
@@ -113,27 +116,56 @@ void Scaling(SDL_Surface *src, SDL_Surface *dest)
 	{
 	  if (cpt >= stepx)
 	    {
-	      printf("%d\n",tempR);
-	      putpixel(dest,i,j/stepx,SDL_MapRGB(dest->format, tempR/stepx, tempG/stepx, tempB/stepx));
+	      //printf("%d & %d\n",j, j/stepx);
+	      putpixel(temp,j/stepx,i,SDL_MapRGB(temp->format, (int)round(tempR/stepx), (int)round(tempG/stepx), (int)round(tempB/stepx)));
 	      cpt = 0;
+	      printf("%d\n",tempR);
 	      tempR = 0;
 	      tempG = 0;
 	      tempB = 0;
+	      j -= 1;
 	    }
 	  else
 	    {
-	      SDL_GetRGB(getpixel(src,i,j), src->format, &r, &g, &b);
+	      SDL_GetRGB(getpixel(src,j,i), src->format, &r, &g, &b);
 	      cpt += 1;
 	      tempR += r;
 	      tempG += g;
 	      tempB += b;
-	      r = 0;
-	      g = 0;
-	      b = 0;
 	    }
 	}
       cpt = 0;
-    }   
+    }
+
+    for (int j = 0; j < temp->w; j++)
+    {
+      for (int i = 0; i < temp->h; i++)
+	{
+	  if (cpt >= stepy)
+	    {
+	      //printf("%d & %d\n",j, j/stepx);
+	      putpixel(dest,j,i/stepy,SDL_MapRGB(temp->format, (int)round(tempR/stepx), (int)round(tempG/stepx), (int)round(tempB/stepx)));
+	      cpt = 0;
+	      tempR = 0;
+	      tempG = 0;
+	      tempB = 0;
+	      i -= 1;
+	    }
+	  else
+	    {
+	      SDL_GetRGB(getpixel(temp,j,i), temp->format, &r, &g, &b);
+	      cpt += 1;
+	      tempR += r;
+	      tempG += g;
+	      tempB += b;
+	    }
+	}
+      cpt = 0;
+    }
+
+  display_image(dest);
+  SDL_SaveBMP(dest,"res.bmp");
+  SDL_FreeSurface(temp);
 }
 
 
@@ -142,10 +174,13 @@ int main(int argc, char *argv[])
   if(argc > 1)
     {
       SDL_Surface *img = load(argv[1]);
-      SDL_Surface *res = SDL_CreateRGBSurface(0, 200, img->h, 32, 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
+      SDL_Surface *res = SDL_CreateRGBSurface(0, 200, 200, 32, 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
 
       Scaling(img, res);
 
+      SDL_FreeSurface(img);
+      SDL_FreeSurface(res);
+      
       display_image(res);
       return 1;
     }

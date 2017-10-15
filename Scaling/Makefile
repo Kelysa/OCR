@@ -7,7 +7,8 @@ CFLAGS= -Wall -Wextra -std=c99 -O3
 LDFLAGS=
 LDLIBS= `pkg-config --libs sdl` -lSDL_image -lm
 
-OBJ= pixel_operations.o scaling.o
+#OBJ= pixel_operations.o scaling.o
+OBJ= scaling.o
 DEP= ${SRC:.o=.d}
 
 all: scaling
@@ -16,7 +17,7 @@ main: ${OBJ}
 
 clean:
 	${RM} ${OBJ} ${DEP} *~
-	${RM} scaling
+	${RM} scaling scaling.d
 
 -include ${DEP}
 

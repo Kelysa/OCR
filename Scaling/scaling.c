@@ -54,7 +54,6 @@ void putpixel(SDL_Surface *surface, unsigned x, unsigned y, Uint32 pixel) {
     break;
   }
 }
-
 void wait_for_keypressed()
 {
   SDL_Event event;
@@ -106,8 +105,7 @@ void Scaling(SDL_Surface *src, SDL_Surface *dest)
   int cpt = 0;
   Uint8 r, g, b;
   int tempR = 0, tempG = 0, tempB = 0;
-
-
+  //printf("%d\n",stepx);
   
   for (int i = 0; i < src->h; i++)
     {
@@ -115,7 +113,8 @@ void Scaling(SDL_Surface *src, SDL_Surface *dest)
 	{
 	  if (cpt >= stepx)
 	    {
-	      putpixel(dest,i,j,SDL_MapRGB(dest->format, tempR/stepx, tempG/stepx, tempB/stepx));
+	      printf("%d\n",tempR);
+	      putpixel(dest,i,j/stepx,SDL_MapRGB(dest->format, tempR/stepx, tempG/stepx, tempB/stepx));
 	      cpt = 0;
 	      tempR = 0;
 	      tempG = 0;
@@ -124,6 +123,7 @@ void Scaling(SDL_Surface *src, SDL_Surface *dest)
 	  else
 	    {
 	      SDL_GetRGB(getpixel(src,i,j), src->format, &r, &g, &b);
+	      cpt += 1;
 	      tempR += r;
 	      tempG += g;
 	      tempB += b;

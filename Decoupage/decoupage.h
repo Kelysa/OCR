@@ -15,8 +15,9 @@ int findendline(SDL_Surface *surface,int posy);
 int findfirstline(SDL_Surface *surface,int posy);
 int* decoupline(SDL_Surface *surface);
 SDL_Surface* display_image(SDL_Surface *img);
-int findfirstletters(SDL_Surface *surface,int* begin);
-int findendletters(SDL_Surface *surface,int* begin);
+int findfirstletters(SDL_Surface *surface,int* begin,int posx);
+int findendletters(SDL_Surface *surface,int* begin,int posx);
 void decoupcolum(SDL_Surface *surface,int* begin);
+void decoupcolum2(SDL_Surface *surface,int* begin);
 void wait_for_keypressed(void);
 # endif

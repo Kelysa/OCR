@@ -15,8 +15,12 @@ int main(int argc, char *path[])
       return 1;
     }
   SDL_Surface *surface = IMG_Load(path[1]);
-  decoupage(surface);
+  int* begin = decoupline(surface);
+  findfirstletters(surface,begin);
+  //findendletters(surface,begin);
+  //decoupcolum(surface,begin);
   display_image(surface);
   SDL_FreeSurface(surface);
   return 0;
+  
 }

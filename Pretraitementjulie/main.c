@@ -13,8 +13,6 @@ int main(int arg, char *path[])
     return 1;
   }
   SDL_Surface *surface = load_image(path[1]);
-  blackandwhite(surface);
-  eraseLonelyPoint(surface);
   display_image(surface);
   SDL_FreeSurface(surface);
 

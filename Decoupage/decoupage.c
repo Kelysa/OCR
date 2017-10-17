@@ -102,14 +102,13 @@ void drawLines(SDL_Surface *surface, int x, int y)
   SDL_UnlockSurface(surface);
 }
 
-void drawBorders(SDL_Surface *surface, int x, int y)
+void drawBorders(SDL_Surface *surface, int* x, int y)
 {
   SDL_LockSurface(surface);
   
-  for (int j = y; j < surface -> h; j++)
+  for (int j = *x; j < *(x+1); j++)
   {
-     putpixel(surface, x-1
-	      , j, SDL_MapRGB(surface->format, 0, 0, 255));
+    putpixel(surface, y, j, SDL_MapRGB(surface->format, 0, 0, 255));
   }
   
   SDL_UnlockSurface(surface);
@@ -141,102 +140,149 @@ struct Coords
 };
 
 
-int findendletters(SDL_Surface *surface, int posy)
+int findfirstline(SDL_Surface *surface,int posy)
 {
-    int n = 0;
-    int posx =0;
-    Uint8 r = 0, g = 0, b = 0;
-    while (n != surface->h || posy<= surface->h)
+  Uint8 r = 0, g = 0, b = 0;
+  for (int j = posy; j < (surface->h)-1; j++)
+  {
+    for (int i = 1; i < (surface->w)-1; i++)
     {
-        if ((r & g & b) == 255  && r == g && g == b)
-            n+=1;
-        if (posx >= surface->w)
-        {
-            posx=0;
-            posy+=1;
+      SDL_GetRGB(getpixel(surface, i, j), surface->format, &r, &g, &b);
 
-        }
-        else
-            posx+=1;
+      if ((r & g & b) == 0 && r == g && g == b)
+      {
+	drawLines(surface, 0, j);
+	return j;
+      }
     }
-    return posy;
+  }
+  return (surface->h)-1;
 }
-
-void decoupage(SDL_Surface *surface)
+int findendline(SDL_Surface *surface,int posy)
 {
-   Uint8 r = 0, g = 0, b = 0;
-   int j=0;
-   int i=0;
-   struct Coords coord;
-   while (j<= surface->h)
-     {
-       coord.beginposy=0;
-       coord.beginposx=0;
-       coord.endposy=0;
-       coord.endposx=0;
-       for (j = j ; j < surface->h; j++)
-	 {
-	   for (i = i ; i < surface->w; i++)
-	     {
-	       SDL_GetRGB(getpixel(surface, i, j), surface->format, &r, &g, &b);
-	       if ((r & g & b) == 0  && r == g && g == b)
-		 {
-		   putpixel(surface, i-1, j, SDL_MapRGB(surface->format,0, 0, 255));
-		   coord.beginposy = i;
-		   break;
-		 }
-	     }
-	   if (b == 255 && (r & g) == 0 && r == g)
-	     {
-	       break;
-	     }
-	    
-	 }
-       if(j< surface->h)
-	 {
-	   return; 
-	 }
-     }
-   coord.beginposy = i;
-   coord.endposy = findendletters(surface,j);
-   for (; i < surface->h; i++)
-     {
-       for (j = coord.beginposy; j<coord.endposy; j++)
-	 {
-	   if ((r & g & b) == 0  && r == g && g == b)
-	     {
-	       putpixel(surface, i-1, j, SDL_MapRGB(surface->format,0, 0, 255));
-	       coord.beginposx = i;
-	       break;
-	     }
-	   
-	 }
-       if (b == 255 && (r & g) == 0 && r == g)
-	 {
-	   break;
-	 }
-       
-       
-     }
-   for (i = surface->h ; i>0; i--)
-     {
-       for (j = coord.beginposx; j<coord.endposy; j++)
-	 {
-	   if ((r & g & b) == 0  && r == g && g == b)
-	     {
-	       coord.endposx = i;
-	       putpixel(surface, i-1, j, SDL_MapRGB(surface->format,0, 0, 255));
-	       break;
-	     }
-	   
-	 }
-       if (b == 255 && (r & g) == 0 && r == g)
-	 {
-	   break;
-	 }
-     }
-   drawLines(surface,coord.beginposx,coord.beginposy);
-   drawBorders(surface,coord.endposx,coord.endposy);
-   // la il faut creer une tableau [][] aloue et mettre la struc coord dedant
+  Uint8 r = 0, g = 0, b = 0;
+  int x =0;
+  for (int j = posy; j < (surface->h)-1; j++)
+  {
+    for (int i = 1; i < (surface->w)-1; i++)
+    {
+      SDL_GetRGB(getpixel(surface, i, j), surface->format, &r, &g, &b);
+
+      if ((r & g & b) != 0 && r == g && g == b)
+      {
+	x+=1;
+      }
+      if (x+2 == (surface->w))
+      {
+	drawLines(surface, 0, j);
+	return j;
+      }
+    }
+    x=0;
+  }
+  return (surface->h)-1;
+}
+int* decoupline(SDL_Surface *surface)
+{
+  size_t len = 16;
+  int* begin =  calloc(len, sizeof (int));
+  *begin = findfirstline(surface,1);
+  int i = 0;
+  while (*begin < (surface->h)-1)
+    {
+      *(begin+i+1) = findendline(surface,*(begin+i));
+      i+=1;
+      if (*(begin+i) >= (surface->h)-1)
+	{
+	  return begin;
+	}
+      *(begin+i+1) = findfirstline(surface,*(begin+i));
+      i+=1;
+    }
+  return 0;
 }
 
+
+int findfirstletters(SDL_Surface *surface,int* begin,int posx)
+{
+  Uint8 r = 0, g = 0, b = 0;
+  for (int j = *(begin); j <= *(begin+1); j++)
+  {
+    for (int i = posx; i < (surface->h)-1; i++)
+    {
+      SDL_GetRGB(getpixel(surface, j,i), surface->format, &r, &g, &b);
+
+      if ((r & g & b) == 0 && r == g && g == b)
+      {
+	drawBorders(surface,begin,j);
+	return j;
+      }
+    }
+  }
+  return (surface->w)-1;
+}
+
+int findendletters(SDL_Surface *surface,int* begin,int posx)
+{
+  Uint8 r = 0, g = 0, b = 0;
+  int x =0;
+  for (int j = *(begin); j <= *(begin+1); j++)
+  {
+    for (int i = posx; i < (surface->h)-1; i++)
+    {
+      SDL_GetRGB(getpixel(surface, j, i), surface->format, &r, &g, &b);
+
+      if ((r & g & b) != 0 && r == g && g == b)
+      {
+	x+=1;
+      }
+      if (x == *(begin+1)-*(begin))
+      {
+	drawBorders(surface,begin,i);
+	return i;
+      }
+    }
+    x=0;
+  }
+  return (surface->w)-1;
+}
+
+void decoupcolum(SDL_Surface *surface,int* begin)
+{
+  int j = findfirstletters(surface,begin, 0);
+  int i = 0;
+  while (i <= 3)
+    {
+      j = findendletters(surface,begin+i,j);
+      if (j >= (surface->w)-3)
+	    {
+	      i+=1;
+	      j = findfirstletters(surface, begin+i,j);
+	    }
+      j = findfirstletters(surface,begin+i,j);
+      if (i >= 3)
+	{
+	  return;
+	}
+    }
+      
+}
+void decoupcolum2(SDL_Surface *surface,int* begin);
+void decoupcolum2(SDL_Surface *surface,int* begin)
+{
+  int j = findfirstletters(surface, begin,0);
+  int i = 0;
+  printf("\n");
+  printf("%d",j);
+  j = findendletters(surface,begin+i,j);
+  printf("\n");
+  printf("%d",j);
+  //j = findfirstletters(surface,begin+i,j);
+  printf("\n");
+  //printf("%d",j);
+  printf("\n");
+  printf("%d",(surface->w)-1);
+  printf("\n");
+  //j = findendletters(surface,begin,j);
+  //j = findfirstletters(surface,begin,j);
+}

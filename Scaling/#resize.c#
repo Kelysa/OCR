@@ -1,0 +1,38 @@
+#include <gtk/gtk.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+void fenetre()
+{
+  GtkWidget *fenetre = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+
+  GtkWidget *image;
+
+  if (argc > 1)
+    {
+      
+      image = gtk_image_new_from_file(argv[1]);
+    }
+
+
+  gtk_window_set_title(GTK_WINDOW(fenetre), "Hello World");
+  
+  g_signal_connect(G_OBJECT(fenetre), "delete-event", G_CALLBACK(gtk_main_quit),NULL);
+  
+  gtk_widget_show(fenetre);
+
+  gtk_main(); 
+}
+
+void loadImage(int argc, char *argv[])
+{
+  }
+
+int main(int argc, char *argv[])
+{
+  gtk_init(&argc, &argv);
+
+  fenetre();
+
+  return EXIT_SUCCESS;
+}

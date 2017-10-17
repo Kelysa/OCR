@@ -2,22 +2,21 @@
 
 CC=gcc
 
-CPPFLAGS= `pkg-config --cflags sdl` -MMD
-CFLAGS= -Wall -Wextra -std=c99 -O3
+CPPFLAGS= `pkg-config --cflags gtk+-3.0` -MMD
+CFLAGS= -Wall -Wextra -std=c99 
 LDFLAGS=
-LDLIBS= `pkg-config --libs sdl` -lSDL_image -lm
+LDLIBS= `pkg-config --libs gtk+-3.0` 
 
-#OBJ= pixel_operations.o scaling.o
-OBJ= scaling.o
+OBJ= resize.o
 DEP= ${SRC:.o=.d}
 
-all: scaling
+all: resize
 
 main: ${OBJ}
 
 clean:
 	${RM} ${OBJ} ${DEP} *~
-	${RM} scaling scaling.d
+	${RM} resize resize.d
 
 -include ${DEP}
 

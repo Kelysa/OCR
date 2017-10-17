@@ -1,0 +1,25 @@
+# include <stdio.h>
+# include <stdlib.h>
+# include <gtk-2.0/gtk/gtk.h>
+# include <gdk/gdk.h>
+
+gboolean Sortie(GtkWidget *widget, gpointer data)
+{
+  gtk_main_quit();
+  return TRUE;
+}
+
+int main(int argc, char *argc[])
+{
+  GtkWidget *fenetre, *label;
+  g_print("Passage dans l'application hello\n");
+  gtk_init(&argc, &argv);
+  fenetre = gtk_windows_new(GTK_WINDOW_TOPLEVEL);
+  gtk_windows_set_default_size(GTK_WINDOW(fenetre), 200,100);
+  g_signal_connect(G_OBJECT(fenetre),"delete_event",G_CALLBACK(Sortie), NULL);
+  labl= gtk_label_new("Hello World");
+  gtk_container_add(GTK_CONTAINER(fenetre), label);
+  gtk_widget_show_all(fenetre);
+  gtk_main();
+  return 0;
+}

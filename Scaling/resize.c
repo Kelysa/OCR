@@ -10,6 +10,7 @@ void fenetre()
 
   if (argc > 1)
     {
+      
       image = gtk_image_new_from_file(argv[1]);
     }
 

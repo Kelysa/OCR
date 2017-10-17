@@ -18,8 +18,8 @@ int main(int argc, char *path[])
   int* begin = decoupline(surface);
   //findfirstletters(surface,begin);
   //findendletters(surface,begin,0);
-  //decoupcolum(surface,begin);
-  decoupcolum2(surface,begin);
+  decoupcolum(surface,begin);
+  //decoupcolum2(surface,begin);
   display_image(surface);
   SDL_FreeSurface(surface);
   return 0;

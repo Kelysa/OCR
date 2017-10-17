@@ -185,9 +185,9 @@ int findendline(SDL_Surface *surface,int posy)
 int* decoupline(SDL_Surface *surface)
 {
   size_t len = 16;
+  int i = 0;
   int* begin =  calloc(len, sizeof (int));
   *begin = findfirstline(surface,1);
-  int i = 0;
   while (*begin < (surface->h)-1)
     {
       *(begin+i+1) = findendline(surface,*(begin+i));
@@ -206,16 +206,16 @@ int* decoupline(SDL_Surface *surface)
 int findfirstletters(SDL_Surface *surface,int* begin,int posx)
 {
   Uint8 r = 0, g = 0, b = 0;
-  for (int j = *(begin); j <= *(begin+1); j++)
+  for (int i = posx; i < (surface->w)-1; i++)
   {
-    for (int i = posx; i < (surface->h)-1; i++)
+    for (int j = *(begin); j <= *(begin+1); j++)
     {
-      SDL_GetRGB(getpixel(surface, j,i), surface->format, &r, &g, &b);
+      SDL_GetRGB(getpixel(surface, i,j), surface->format, &r, &g, &b);
 
       if ((r & g & b) == 0 && r == g && g == b)
       {
-	drawBorders(surface,begin,j);
-	return j;
+	drawBorders(surface,begin,i);
+	return i;
       }
     }
   }
@@ -226,11 +226,11 @@ int findendletters(SDL_Surface *surface,int* begin,int posx)
 {
   Uint8 r = 0, g = 0, b = 0;
   int x =0;
-  for (int j = *(begin); j <= *(begin+1); j++)
+  for (int i = posx; i < (surface->w)-1; i++)
   {
-    for (int i = posx; i < (surface->h)-1; i++)
+    for (int j = *(begin); j <= *(begin+1); j++)
     {
-      SDL_GetRGB(getpixel(surface, j, i), surface->format, &r, &g, &b);
+      SDL_GetRGB(getpixel(surface, i, j), surface->format, &r, &g, &b);
 
       if ((r & g & b) != 0 && r == g && g == b)
       {
@@ -251,19 +251,16 @@ void decoupcolum(SDL_Surface *surface,int* begin)
 {
   int j = findfirstletters(surface,begin, 0);
   int i = 0;
-  while (i <= 3)
+  while (i <= 9)
     {
       j = findendletters(surface,begin+i,j);
-      if (j >= (surface->w)-3)
+      if (j >= (surface->w)-2)
 	    {
-	      i+=1;
+	      i+=2;
+	      j=0;
 	      j = findfirstletters(surface, begin+i,j);
 	    }
       j = findfirstletters(surface,begin+i,j);
-      if (i >= 3)
-	{
-	  return;
-	}
     }
       
 }
@@ -272,17 +269,12 @@ void decoupcolum2(SDL_Surface *surface,int* begin)
 {
   int j = findfirstletters(surface, begin,0);
   int i = 0;
-  printf("\n");
-  printf("%d",j);
   j = findendletters(surface,begin+i,j);
-  printf("\n");
-  printf("%d",j);
-  //j = findfirstletters(surface,begin+i,j);
-  printf("\n");
-  //printf("%d",j);
-  printf("\n");
-  printf("%d",(surface->w)-1);
-  printf("\n");
-  //j = findendletters(surface,begin,j);
-  //j = findfirstletters(surface,begin,j);
+  j = findfirstletters(surface,begin+i,j);
+
+  j = 0;
+  
+  j = findendletters(surface,begin+2,j);
+  j = findfirstletters(surface,begin+2,j);
+
 }

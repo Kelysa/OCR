@@ -14,5 +14,5 @@ SDL_Surface* load_image(char *path);
 SDL_Surface* display_image(SDL_Surface *img);
 void init_sdl(void);
 void wait_for_keypressed(void);
-
+void Grey(SDL_Surface *surface);
 # endif

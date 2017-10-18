@@ -95,28 +95,7 @@ void wait_for_keypressed(void) {
   // Loop until we got the expected event
   }
 }
-void drawLines(SDL_Surface *surface, int x, int y)
-{
-  SDL_LockSurface(surface);
-  for (int i = x; i < (surface -> w)-x; i++)
-  {
-    putpixel(surface, i + x ,y-1, SDL_MapRGB(surface->format, 0, 0, 255));
-  }
-  SDL_UnlockSurface(surface);
-}
 
-void drawBorders(SDL_Surface *surface, int x, int y)
-{
-  SDL_LockSurface(surface);
-  
-  for (int j = y; j < surface -> h; j++)
-  {
-     putpixel(surface, x-1
-	      , j, SDL_MapRGB(surface->format, 0, 0, 255));
-  }
-  
-  SDL_UnlockSurface(surface);
-}
 void init_sdl(void) {
   // Init only the video part
   if( SDL_Init(SDL_INIT_VIDEO)==-1 ) {
@@ -134,6 +113,20 @@ SDL_Surface* load_image(char *path) {
     errx(3, "can't load %s: %s", path, IMG_GetError());
   return img;
 }
+void Grey(SDL_Surface *surface)
+{
+  Uint8 r = 0, g = 0, b = 0;
+
+  for (int j = 0; j < surface->h; j++)
+  {
+    for (int i = 0; i < surface->w; i++)
+    {
+      SDL_GetRGB(getpixel(surface, i, j), surface->format, &r, &g, &b);
+      Uint8 moyenne = 0.3*r + 0.59*g + 0.11*b;
+      putpixel(surface, i, j, SDL_MapRGB(surface->format,moyenne, moyenne, moyenne));
+    }
+  }
+}
 void blackandwhite(SDL_Surface *surface)
 {
   Uint8 r = 0, g = 0, b = 0;
@@ -143,11 +136,7 @@ void blackandwhite(SDL_Surface *surface)
     {
       SDL_GetRGB(getpixel(surface, i, j), surface->format, &r, &g, &b);
 
-      if ((r & g & b) < 127 && r == g && g == b)
-      {
-        putpixel(surface, i, j, SDL_MapRGB(surface->format, 0, 0, 0));
-      }
-      else if((r & g & b) < 100 && fabs(r - g) < 100 && fabs(g - b) < 100 && fabs(b -r) < 100)
+      if ((r & g & b) < 150 && r == g && g == b)
       {
         putpixel(surface, i, j, SDL_MapRGB(surface->format, 0, 0, 0));
       }

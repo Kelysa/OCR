@@ -48,18 +48,21 @@ gboolean gdkpixbuf_set_colors(GdkPixbuf *pixbuf, gint x, gint y, guchar red, guc
 }
 
 
-void from_color_to_greyscale(GtkWidget *image)
+void from_color_to_greyscale(GdkPixbuf *image)
 {
   size_t height, width;
-  height = gtk_widget_get_allocated_height(image);
-  width = gtk_widget_get_allocated_width(image);
+  height = gdk_pixbuf_get_height(image);
+  width = gdk_pixbuf_get_width(image);
 
   for(size_t i = 0; i < height; i++)
     for(size_t j = 0; j < width; j++)
       {
 	guchar *red = 0, *green = 0, *blue = 0;
 	gdkpixbuf_get_colors(image, j, i, red, green, blue);
-	printf("%c\n", (unsigned char)*red);
+
+	//g_print(red);
+	//guchar grey = 0.21*(double)red + 0.72*(double)green + 0.07*(double)blue;
+	gdkpixbuf_set_colors(image, j, i, *red, *green, 0);
       }
 }
 
@@ -79,12 +82,16 @@ int main(int argc, char *argv[])
 
   if(argc > 1)
     {
-      printf("Hey\n");
-      printf(argv[1]);
-      printf("\n");
+      //printf("Hey\n");
+      //printf(argv[1]);
+      //printf("\n");
       image = gtk_image_new_from_file(argv[1]);
       gtk_window_set_title(GTK_WINDOW(widget),argv[1]);
 
+
+      //GError **error = g_error_new();
+      GdkPixbuf *image = gdk_pixbuf_new_from_file(argv[1], NULL);
+      
       from_color_to_greyscale(image);
       
     }

@@ -15,7 +15,7 @@ all: learn
 main: ${OBJ}
 
 clean:
-	${RM} ${OBJ} ${DEP} *~
+	${RM} ${OBJ} ${DEP} *~ .o .d
 	${RM} learn learn.d
 
 -include ${DEP}

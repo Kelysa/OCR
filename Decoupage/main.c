@@ -19,7 +19,6 @@ int main(int argc, char *path[])
   //findfirstletters(surface,begin);
   //findendletters(surface,begin,0);
   decoupcolum(surface,begin);
-  //decoupcolum2(surface,begin);
   display_image(surface);
   SDL_FreeSurface(surface);
   return 0;

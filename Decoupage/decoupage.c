@@ -131,13 +131,11 @@ SDL_Surface* load_image(char *path) {
   return img;
 }
 
-struct Coords
-{
-    int beginposx;
-    int endposx;
-    int beginposy;
-    int endposy;
-};
+
+
+
+
+
 
 
 int findfirstline(SDL_Surface *surface,int posy)
@@ -245,18 +243,24 @@ int findendletters(SDL_Surface *surface,int* begin,int posx)
   return (surface->w)-1;
 }
 
-void decoupcolum(SDL_Surface *surface,int* begin)
+int* decoupcolum(SDL_Surface *surface,int* begin)
 {
+  size_t len = 5000;
+  int* colum =  calloc(len, sizeof (int));
   int j = findfirstletters(surface,begin, 0);
   int x = 0;
   int y = j;
   int i = 0;
+  *colum = j;
+  int count = 0;
   while (*(begin+i+3) != 0)
     {
       j = findendletters(surface,begin+i,j);
       x = j;
       drawLines(surface, y, x,begin+i);
       drawLines(surface, y, x,begin+i+1);
+      count+=1;
+      *(colum+count)= x;
       if (j >= (surface->w)-1)
 	    {
 	      i+=2;
@@ -270,6 +274,51 @@ void decoupcolum(SDL_Surface *surface,int* begin)
 	   j = findfirstletters(surface,begin+i,j);
 	   y = j;
 	}
+      count+=1;
+      *(colum+count) = j;
     }
+  return colum;
       
+}
+
+
+void addcoord (SDL_Surface *surface,int* line, int*colum)
+{
+
+  FILE* fichier = NULL;
+  fichier = fopen("test.txt", "w+");
+  Uint8 r = 0, g = 0, b = 0;
+  int count = 0;
+  int x = 0;
+  int c = 0;
+  for(int j = 0;*(line+j) != 0; j+=2 )
+    {
+      int beginposx = *(line+j);
+      int endposx = *(line+j+1);
+      for (int i = *(line+j)+1; i<= (surface->w)-1; i++ )
+	{
+	  SDL_GetRGB(getpixel(surface, i, b), surface->format, &r, &g, &b);
+      
+	  if (b ==  255 && r == 0 && g == 0)
+	    {
+	      count+=1;
+	    }
+	  c+=1;
+	}
+      for(int i = 0; i < count/2  ; i+=2)
+       {
+	 
+	 fprintf(fichier, "caractere numero %d : ", x);
+	 x+=1;
+	 int beginposy = *(colum+i);
+	 int endposy = *(colum+i+i);
+	 fprintf(fichier, "%d,", beginposx);
+	 fprintf(fichier, "%d,", endposx);
+	 fprintf(fichier, "%d,", beginposy);
+	 fprintf(fichier, "%d,", endposy);
+       }
+      x = 0;
+      c = 0;
+    }
+  fclose(fichier);
 }

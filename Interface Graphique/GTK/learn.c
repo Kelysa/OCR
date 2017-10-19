@@ -1,26 +1,52 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <gtk/gtk.h>
+# include <string.h>
 
 //# include "getsetpix.h"
-# include "traitement.h"
+//# include "traitement.h"
 
 
 //gboolean gdk_pixbuf_get_colors(GdkPixbuf *pixbuf, gint x, gint y, guchar *red, guchar *green, guchar *blue);
 //gboolean gdk_pixbuf_set_colors(GdkPixbuf *pixbuf, gint x, gint y, guchar red, guchar green, guchar blue);
 
-void from_color_to_greyscale(GdkPixbuf *image);
-void from_color_to_black(GdkPixbuf *image);
+//void from_color_to_greyscale(GdkPixbuf *image);
+//void from_color_to_black(GdkPixbuf *image);
 
-
-int main(int argc, char *argv[])
+GtkWidget *SetText(char *text)
 {
-  all(argc, argv);
+  GtkTextBuffer *buff = gtk_text_buffer_new(NULL);
+  gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buff), text, strlen(text));
+  GtkWidget *res = gtk_text_view_new_with_buffer(buff);
   
-  return EXIT_SUCCESS;
+  return res;
 }
 
-void all(int argc, char *argv[])
+GtkWidget *Header()
+{
+  GtkWidget *res = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,10);
+  
+  GtkWidget *start = gtk_button_new();
+  gtk_button_set_label(GTK_BUTTON(start), "Start");
+
+  GtkWidget *path = gtk_entry_new();
+  GtkWidget *perct = gtk_entry_new();
+  gtk_entry_set_max_length(GTK_ENTRY(perct), 3);
+  gtk_entry_set_width_chars(GTK_ENTRY(perct), 3);
+  
+  GtkWidget *perctText = SetText("%");
+  
+  
+  gtk_container_add(GTK_CONTAINER(res), path);
+  gtk_container_add(GTK_CONTAINER(res), perct);
+  gtk_container_add(GTK_CONTAINER(res), perctText);
+  gtk_container_add(GTK_CONTAINER(res), start);
+
+  return res;
+  
+}
+
+void All(int argc, char *argv[])
 {
   gtk_init(&argc, &argv);
   
@@ -28,9 +54,9 @@ void all(int argc, char *argv[])
   gtk_window_set_default_size(GTK_WINDOW(widget), 600, 400);
   g_signal_connect(GTK_WINDOW(widget), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
-  GtkWidget *myBox = gtk_vbox_new(0,0);
+  GtkWidget *myBox = gtk_box_new(GTK_ORIENTATION_VERTICAL,10);
 
-  GtkWidget *header = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,10);
+  GtkWidget *header = Header();
   GtkWidget *image; 
   GtkWidget *footer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,10);
 
@@ -39,11 +65,11 @@ void all(int argc, char *argv[])
       image = gtk_image_new_from_file(argv[1]);
       gtk_window_set_title(GTK_WINDOW(widget),argv[1]);
       
-      GdkPixbuf *img = gdk_pixbuf_new_from_file(argv[1], NULL);
+      //GdkPixbuf *img = gdk_pixbuf_new_from_file(argv[1], NULL);
       
-      from_color_to_black(img);
+      //from_color_to_black(img);
 
-      image = gtk_image_new_from_pixbuf(img);
+      //image = gtk_image_new_from_pixbuf(img);
       
     }
 
@@ -60,10 +86,21 @@ void all(int argc, char *argv[])
 
 }
 
+
+
+
+/*
 void entry_user(GtkWidget *window)
 {
-  GtkWidget *TBox = gtk_entry_new;
   
   
+  
+  }*/
+
+int main(int argc, char *argv[])
+{
+  All(argc, argv);
+  
+  return EXIT_SUCCESS;
 }
 

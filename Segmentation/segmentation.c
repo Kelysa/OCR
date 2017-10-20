@@ -3,15 +3,15 @@
 # include <SDL/SDL_image.h>
 # include <SDL/SDL.h>
 # include <err.h>
-# include "decoupage.h"
+# include "segmentation.h"
 # include <math.h>
- 
+
 static inline
 Uint8* pixelref(SDL_Surface *surf, unsigned x, unsigned y) {
   int bpp = surf->format->BytesPerPixel;
   return (Uint8*)surf->pixels + y * surf->pitch + x * bpp;
 }
- 
+
 Uint32 getpixel(SDL_Surface *surface, unsigned x, unsigned y) {
   Uint8 *p = pixelref(surface, x, y);
   switch(surface->format->BytesPerPixel) {
@@ -29,7 +29,7 @@ Uint32 getpixel(SDL_Surface *surface, unsigned x, unsigned y) {
   }
   return 0;
 }
- 
+
 void putpixel(SDL_Surface *surface, unsigned x, unsigned y, Uint32 pixel) {
   Uint8 *p = pixelref(surface, x, y);
   switch(surface->format->BytesPerPixel) {
@@ -63,17 +63,17 @@ void putpixel(SDL_Surface *surface, unsigned x, unsigned y, Uint32 pixel) {
     errx(1, "Couldn't set %dx%d video mode: %s\n",
          img->w, img->h, SDL_GetError());
   }
- 
+
   /* Blit onto the screen surface */
   if(SDL_BlitSurface(img, NULL, screen, NULL) < 0)
     warnx("BlitSurface error: %s\n", SDL_GetError());
- 
+
   // Update the screen
   SDL_UpdateRect(screen, 0, 0, img->w, img->h);
- 
+
   // wait for a key
   wait_for_keypressed();
- 
+
   // return the screen for further uses
   return screen;
 }
@@ -105,12 +105,12 @@ void drawLines(SDL_Surface *surface, int x, int y, int* begin)
 void drawBorders(SDL_Surface *surface, int* x, int y)
 {
   SDL_LockSurface(surface);
-  
+
   for (int j = *x; j < *(x+1); j++)
   {
     putpixel(surface, y, j, SDL_MapRGB(surface->format, 0, 0, 255));
   }
-  
+
   SDL_UnlockSurface(surface);
 }
 void init_sdl(void) {
@@ -178,7 +178,7 @@ int findendline(SDL_Surface *surface,int posy)
   }
   return (surface->h)-1;
 }
-int* decoupline(SDL_Surface *surface)
+int* cutline(SDL_Surface *surface)
 {
   size_t len = 64;
   int i = 0;
@@ -243,82 +243,101 @@ int findendletters(SDL_Surface *surface,int* begin,int posx)
   return (surface->w)-1;
 }
 
-int* decoupcolum(SDL_Surface *surface,int* begin)
+int* cutcolum(SDL_Surface *surface,int* begin)
 {
   size_t len = 5000;
   int* colum =  calloc(len, sizeof (int));
   int j = findfirstletters(surface,begin, 0);
-  int x = 0;
-  int y = j;
   int i = 0;
-  *colum = j;
   int count = 0;
+  *(colum+count) = j;
   while (*(begin+i+3) != 0)
     {
       j = findendletters(surface,begin+i,j);
-      x = j;
-      drawLines(surface, y, x,begin+i);
-      drawLines(surface, y, x,begin+i+1);
-      count+=1;
-      *(colum+count)= x;
+      *(colum+count+1) = j;
+      drawLines(surface, *(colum+count), *(colum+count+1),begin+i);
+      drawLines(surface, *(colum+count),*(colum+count+1),begin+i+1);
+      count+=2;
       if (j >= (surface->w)-1)
 	    {
 	      i+=2;
 	      j=0;
 	      j = findfirstletters(surface, begin+i,j);
-	      y = j;
-	      x = 0;
 	    }
       else
-	{
-	   j = findfirstletters(surface,begin+i,j);
-	   y = j;
-	}
-      count+=1;
-      *(colum+count) = j;
+	    {
+    	   j = findfirstletters(surface,begin+i,j);
+	     }
+       *(colum+count) = j;
     }
   return colum;
-      
+
 }
 
+void print_matrix (SDL_Surface *surface,int beginposx, int endposx, int beginposy,int endposy)
+{
+  Uint8 r = 0, g = 0, b = 0;
+  printf("\n");
+  printf("{");
+  for(int i = beginposx; i <= endposx ; i++)
+  {
+    for(int j = beginposy; j <= endposy ; j++)
+    {
+      SDL_GetRGB(getpixel(surface,i,j ), surface->format, &r, &g, &b);
+  	  if ((r&&g&&b) == 0)
+  	    {
+  	      printf("0");
+  	    }
+      else
+        {
+          printf("1");
+        }
+    }
+    printf("\n");
+
+  }
+  printf("}");
+  printf("\n");
+  printf("\n");
+}
 
 void addcoord (SDL_Surface *surface,int* line, int*colum)
 {
-
   FILE* fichier = NULL;
   fichier = fopen("test.txt", "w+");
   Uint8 r = 0, g = 0, b = 0;
-  int count = 0;
   int x = 0;
-  int c = 0;
+  int a =0;
   for(int j = 0;*(line+j) != 0; j+=2 )
     {
+
       int beginposx = *(line+j);
       int endposx = *(line+j+1);
-      for (int i = *(line+j)+1; i<= (surface->w)-1; i++ )
-	{
-	  SDL_GetRGB(getpixel(surface, i, b), surface->format, &r, &g, &b);
-      
-	  if (b ==  255 && r == 0 && g == 0)
-	    {
-	      count+=1;
-	    }
-	  c+=1;
-	}
-      for(int i = 0; i < count/2  ; i+=2)
-       {
-	 
-	 fprintf(fichier, "caractere numero %d : ", x);
-	 x+=1;
-	 int beginposy = *(colum+i);
-	 int endposy = *(colum+i+i);
-	 fprintf(fichier, "%d,", beginposx);
-	 fprintf(fichier, "%d,", endposx);
-	 fprintf(fichier, "%d,", beginposy);
-	 fprintf(fichier, "%d,", endposy);
-       }
-      x = 0;
-      c = 0;
+      int count = 0;
+      for (int i = 0; i<= (surface->w)-1; i++ )
+	     {
+    	  SDL_GetRGB(getpixel(surface,i,*(line+j)+1 ), surface->format, &r, &g, &b);
+    	  if ((r&&g) == 0 && b == 255)
+    	    {
+    	      count+=1;
+    	    }
+      }
+      if (count != 0)
+      {
+        for(int i = 0; i <= count-2 ; i+=2)
+        	 {
+              fprintf(fichier, "caractere numero %d : ", a);
+          		int beginposy = *(colum+x);
+          		int endposy = *(colum+1+x);
+              fprintf(fichier,"%d,",beginposy);
+              fprintf(fichier,"%d,",endposy);
+              fprintf(fichier,"%d,",beginposx);
+              fprintf(fichier,"%d,",endposx);
+              x+=2;
+              a++;
+              //print_matrix (surface,beginposx,endposx,beginposy,endposy);
+          }
+      }
     }
   fclose(fichier);
 }

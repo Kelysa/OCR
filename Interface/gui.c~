@@ -3,24 +3,7 @@
 # include <gtk/gtk.h>
 # include <string.h>
 
-//# include "getsetpix.h"
-//# include "traitement.h"
-
-
-//gboolean gdk_pixbuf_get_colors(GdkPixbuf *pixbuf, gint x, gint y, guchar *red, guchar *green, guchar *blue);
-//gboolean gdk_pixbuf_set_colors(GdkPixbuf *pixbuf, gint x, gint y, guchar red, guchar green, guchar blue);
-
-//void from_color_to_greyscale(GdkPixbuf *image);
-//void from_color_to_black(GdkPixbuf *image);
-
-GtkWidget *SetText(char *text)
-{
-  GtkTextBuffer *buff = gtk_text_buffer_new(NULL);
-  gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buff), text, strlen(text));
-  GtkWidget *res = gtk_text_view_new_with_buffer(buff);
-  
-  return res;
-}
+#include "gui.h"
 
 GtkWidget *Header()
 {
@@ -33,7 +16,7 @@ GtkWidget *Header()
   gtk_entry_set_max_length(GTK_ENTRY(perct), 3);
   gtk_entry_set_width_chars(GTK_ENTRY(perct), 3);
   
-  GtkWidget *perctText = SetText("%");
+  GtkWidget *perctText = gtk_label_new("%");
   
   
   gtk_container_add(GTK_CONTAINER(res), path);
@@ -84,17 +67,6 @@ void All(int argc, char *argv[])
   gtk_main();
 
 }
-
-
-
-
-/*
-void entry_user(GtkWidget *window)
-{
-  
-  
-  
-  }*/
 
 int main(int argc, char *argv[])
 {

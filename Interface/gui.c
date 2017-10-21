@@ -4,6 +4,26 @@
 # include <string.h>
 
 #include "gui.h"
+char *g_path;
+
+void call_black_and_white_fonction()
+{
+    char begin[] = "./all ";
+    strcat(begin,g_path);
+    char end[] = " p";
+    strcat(begin,end);
+    system(begin);
+    
+}
+void NeuralNet()
+{
+    system("./all 1000 p e e");
+}
+void Seg()
+{
+   // call_black_and_white_fonction();
+    system("./all test.bmp p e");
+}
 
 char *Opening(GtkWidget *window)
 {
@@ -34,10 +54,13 @@ GtkWidget *Header()//GtkWidget *window)
   
   GtkWidget *start = gtk_button_new();
   gtk_button_set_label(GTK_BUTTON(start), "Start");
+  g_signal_connect(G_OBJECT(start), "clicked", G_CALLBACK(NeuralNet), NULL);
   GtkWidget *bandw = gtk_button_new();
   gtk_button_set_label(GTK_BUTTON(bandw), "B & W");
+  g_signal_connect(G_OBJECT(bandw), "clicked", G_CALLBACK(call_black_and_white_fonction), NULL);
   GtkWidget *cut = gtk_button_new();
   gtk_button_set_label(GTK_BUTTON(cut), "Cut");
+  g_signal_connect(G_OBJECT(cut), "clicked", G_CALLBACK(Seg), NULL);
  
   
   
@@ -66,6 +89,7 @@ void All(int argc, char *argv[])
   GtkWidget *footer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,10);
 
   char *path = Opening(widget);
+  g_path = path;
 
   image = gtk_image_new_from_file(path);
   gtk_window_set_title(GTK_WINDOW(widget),path);

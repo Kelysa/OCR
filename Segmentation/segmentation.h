@@ -20,5 +20,6 @@ int findendletters(SDL_Surface *surface,int* begin,int posx);
 int* cutcolum(SDL_Surface *surface,int* begin);
 void wait_for_keypressed(void);
 void addcoord (SDL_Surface *surface,int* line, int*colum);
-void print_matrix (SDL_Surface *surface,int beginposx, int endposx, int beginposy,int endposy);
+void print_matrix (SDL_Surface *surface,int beginposx, int endposx, 
+int beginposy,int endposy);
 # endif

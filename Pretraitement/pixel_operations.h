@@ -8,7 +8,6 @@
  
 Uint32 getpixel(SDL_Surface *surface, unsigned x, unsigned y);
 void putpixel(SDL_Surface *surface, unsigned x, unsigned y, Uint32 pixel);
-void eraseLonelyPoint(SDL_Surface *ecran);
 void blackandwhite(SDL_Surface *ecran);
 SDL_Surface* load_image(char *path);
 SDL_Surface* display_image(SDL_Surface *img);

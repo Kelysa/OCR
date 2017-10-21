@@ -16,7 +16,7 @@ int main(int arg, char *path[])
   Grey(surface);
   blackandwhite(surface);
   display_image(surface);
-  SDL_SaveBMP(surface,"test");
+  SDL_SaveBMP(surface,"test.bmp");
   SDL_FreeSurface(surface);
 
 }

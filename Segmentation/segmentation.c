@@ -274,23 +274,24 @@ int* cutcolum(SDL_Surface *surface,int* begin)
 
 }
 
-void print_matrix (SDL_Surface *surface,int beginposx, int endposx, int beginposy,int endposy)
+void print_matrix (SDL_Surface *surface,int beginposx,int endposx, 
+int beginposy,int endposy)
 {
   Uint8 r = 0, g = 0, b = 0;
   printf("\n");
   printf("{");
-  for(int i = beginposx; i <= endposx ; i++)
+  for(int i = beginposy; i < endposy-1 ; i++)
   {
-    for(int j = beginposy; j <= endposy ; j++)
+    for(int j = beginposx; j< endposx-1; j++)
     {
-      SDL_GetRGB(getpixel(surface,i,j ), surface->format, &r, &g, &b);
-  	  if ((r&&g&&b) == 0)
-  	    {
-  	      printf("0");
-  	    }
+      SDL_GetRGB(getpixel(surface,i+1,j+1), surface->format, &r, &g, &b);
+      if ((r&&g&&b) == 0)
+  	{
+  	  printf("1");
+  	}
       else
         {
-          printf("1");
+          printf("0");
         }
     }
     printf("\n");
@@ -316,27 +317,28 @@ void addcoord (SDL_Surface *surface,int* line, int*colum)
       int count = 0;
       for (int i = 0; i<= (surface->w)-1; i++ )
 	     {
-    	  SDL_GetRGB(getpixel(surface,i,*(line+j)+1 ), surface->format, &r, &g, &b);
+    	  SDL_GetRGB(getpixel(surface,i,*(line+j)+1 ), 
+		surface->format, &r, &g, &b);
     	  if ((r&&g) == 0 && b == 255)
     	    {
     	      count+=1;
     	    }
       }
-      if (count != 0)
+      if (count > 1)
       {
         for(int i = 0; i <= count-2 ; i+=2)
         	 {
-              fprintf(fichier, "caractere numero %d : ", a);
-          		int beginposy = *(colum+x);
-          		int endposy = *(colum+1+x);
-              fprintf(fichier,"%d,",beginposy);
-              fprintf(fichier,"%d,",endposy);
-              fprintf(fichier,"%d,",beginposx);
-              fprintf(fichier,"%d,",endposx);
-              x+=2;
-              a++;
-              //print_matrix (surface,beginposx,endposx,beginposy,endposy);
-          }
+		   a++;
+		   fprintf(fichier, "caractere numero %d : ", a);
+		   int beginposy = *(colum+x);
+		   int endposy = *(colum+1+x);
+		   fprintf(fichier,"%d,",beginposy);
+		   fprintf(fichier,"%d,",endposy);
+		   fprintf(fichier,"%d,",beginposx);
+		   fprintf(fichier,"%d,",endposx);
+		   x+=2;
+		   //print_matrix (surface,beginposx,endposx,beginposy,endposy);
+          	}
       }
     }
   fclose(fichier);

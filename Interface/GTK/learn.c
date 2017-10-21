@@ -28,7 +28,6 @@ GtkWidget *Header()
   
   GtkWidget *start = gtk_button_new();
   gtk_button_set_label(GTK_BUTTON(start), "Start");
-
   GtkWidget *path = gtk_entry_new();
   GtkWidget *perct = gtk_entry_new();
   gtk_entry_set_max_length(GTK_ENTRY(perct), 3);

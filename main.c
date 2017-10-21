@@ -1,12 +1,14 @@
-#include <gtk/gtk.h>
+# include <gtk/gtk.h>
 # include <SDL/SDL.h>
 # include <SDL/SDL_image.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <err.h>
+# include "all.h"
 void call_black_and_white_fonction()
 {
-    system("b.jpg");
+    system("./all b.jpg p");
+    
 }
 
 int main(int argc,char **argv)
@@ -25,7 +27,6 @@ int main(int argc,char **argv)
 
    // sUtf8 = g_locale_to_utf8("tst.jpg", -1, NULL, NULL, NULL);
     button = gtk_button_new_with_label("BLack and white");
-    button2 = gtk_button_new_with_label("Coucou");
     
     gtk_container_add(GTK_CONTAINER(p_Window), button);
     g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(call_black_and_white_fonction), NULL);

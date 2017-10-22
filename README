@@ -4,11 +4,6 @@ with an image in argument for the preprocessing and the segmentation
 and with a number for the neural network.
 
 
-Now if you want to have an interface with buttons link you have
-to follow this steps:
-
-
-1) First of all build the exe of the differents part of our OCR.
-2) Then create the exe gui  in interface folder.
-3) After that move the all.c to the root and build the exe.
-3) Move gui.exe into the root of our project and load gui.
+Now if you want to have an interface with buttons link you
+just have to build at the root with "make ocr". You just have 
+to load the gui.exe. 

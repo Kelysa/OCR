@@ -8,12 +8,19 @@ char *g_path;
 
 void call_black_and_white_fonction()
 {
-    char begin[] = "./all ";
+   char begin[100] = "./all ";
+    int len=strlen(g_path);
+    int i;
+    for(i=len-1;i>=0 && g_path[i]!='/'; i--);
+    if(i>=0)
+    {
+        g_path+=i+1;
+    }
     strcat(begin,g_path);
     char end[] = " p";
     strcat(begin,end);
+    
     system(begin);
-    system("./gui");
     
 }
 void NeuralNet()

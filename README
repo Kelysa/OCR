@@ -9,5 +9,6 @@ to follow this steps:
 
 
 1) First of all build the exe of the differents part of our OCR.
-2) Then create the exe of gui and all contain in interface folder.
-3) Move them into the root of our project and load gui.
+2) Then create the exe gui  in interface folder.
+3) After that move the all.c to the root and build the exe.
+3) Move gui.exe into the root of our project and load gui.

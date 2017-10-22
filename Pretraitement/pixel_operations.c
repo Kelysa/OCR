@@ -136,7 +136,7 @@ void blackandwhite(SDL_Surface *surface)
     {
       SDL_GetRGB(getpixel(surface, i, j), surface->format, &r, &g, &b);
 
-      if ((r & g & b) < 170 && r == g && g == b)
+      if ((r & g & b) < 160 && r == g && g == b)
       {
         putpixel(surface, i, j, SDL_MapRGB(surface->format, 0, 0, 0));
       }

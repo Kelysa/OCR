@@ -19,25 +19,25 @@ matrix* makeLW(int L[], int size)
     {
 
       double** list = matw(L[i],L[i+1]);
-      lw[i].largeur = L[i+1];
-      lw[i].hauteur = L[i] ;
+      lw[i].width = L[i+1];
+      lw[i].height = L[i] ;
       lw[i].List = list ;
     }
     return lw;
 }
 
-double** matw(int hauteur, int largeur)
+double** matw(int height, int width)
 {
   double** w = NULL;
-  w = malloc((hauteur) * sizeof(double*));
+  w = malloc((height) * sizeof(double*));
   if(w == NULL){
       exit(0);
   }
-  for(int i = 0; i < hauteur;i++)
+  for(int i = 0; i < height;i++)
   {
-    if((w[i] = malloc(sizeof(double) * largeur)) == NULL)
+    if((w[i] = malloc(sizeof(double) * width)) == NULL)
     {exit(0);}
-    for(int j = 0; j < largeur;j++)
+    for(int j = 0; j < width;j++)
     {
       w[i][j]=((double)rand() /(double)RAND_MAX)*20 -10 ; 
     }
@@ -64,42 +64,44 @@ matrix* makeLayer(int L[], int size, int nb)
       }
       for(int j = 0; j < nb;j++)
       {
-        if((list[j] = calloc(0, sizeof(double) * L[i])) == NULL)
+        if((list[j] = malloc(sizeof(double) * L[i])) == NULL)
         {exit(0);}
       }
-      layer[i].largeur = L[i];
-      layer[i].hauteur = nb ;
+      
+      layer[i].width = L[i];
+      layer[i].height = nb ;
       layer[i].List = list ;
     }
     return layer;
 }
 
-void forward( int sizeL, matrix* lw, matrix* layer )
+void forward( int sizeL, matrix* lw, matrix* layer, matrix* biais, matrix* lz )
 {
-  int l = lw[0].largeur;
-  l +=1;
   for(int i = 0; i < sizeL-1; i++)
   {
-    mul(layer[i].List, lw[i].List, layer[i].hauteur, lw[i].hauteur, lw[i].largeur, layer[i+1].List );
-    vector_apply(sigmoid, layer[i+1].List, layer[i+1].hauteur, layer[i+1].largeur,layer[i+1].List);
+    mul(layer[i].List, lw[i].List, layer[i].height, lw[i].height, lw[i].width, layer[i+1].List );
+    add(layer[i].List, biais[i].List, layer[i].height, layer[i].width ); // a revoir
+    copy(layer[i+1].List, lz[i+1].List ,layer[i+1].height, layer[i+1].width);
+    vector_apply(sigmoid, layer[i+1].List, layer[i+1].height, layer[i+1].width,layer[i+1].List);
+    
   }
 }
 
-/*void propagation(int L[], int size, int nb)
+void copy(double** layer , double** lz , int height , int width)
 {
-  matrix* lw  = makeLW(L, size);
-  matrix* layer = makeLayer(L, size , nb);
-  forward(size, lw, layer);
-}*/
-
-void replace(matrix* layer)
-{
-  double m2[][2] = {{0,0},{0,1},{1,0},{1,1}};
-  for(int i = 0; i < layer[0].hauteur;i++)
+  for(int i = 0; i < height;i++)
   {
-    for(int j = 0; j < layer[0].largeur;j++)
+    for(int j = 0; j < width;j++)
     {
-      layer[0].List[i][j] = m2[i][j];
+      lz[i][j] = layer[i][j] ;
     }
   }
+}
+
+void putEnter(matrix* layer, double enter[], int i)
+{
+    for(int j = 0; j < layer[0].width;j++)
+    {
+      layer[0].List[0][j] = enter[j+(i*layer[0].width)];
+    }
 }

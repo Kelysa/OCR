@@ -7,7 +7,7 @@ CFLAGS= -Wall -Wextra -Werror -std=c99 -O3
 LDFLAGS=
 LDLIBS= `pkg-config --libs` -lm
  
-SRC= algebra.c main.c tools_network.c
+SRC= algebra.c main.c tools_network.c correction.c
 OBJ= ${SRC:.c=.o}
 DEP= ${SRC:.c=.d}
  

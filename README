@@ -1,2 +1,13 @@
-Via l'interface graphique, on peut appuyer sur les differents bouton
-et ensuite faire marcher les étapes de l'ocr.
+In order, to use the differents elements of our OCR you have to
+build an exe in the concern folder and you just have to load it
+with an image in argument for the preprocessing and the segmentation
+and with a number for the neural network.
+
+
+Now if you want to have an interface with buttons link you have
+to follow this steps:
+
+
+1) First of all build the exe of the differents part of our OCR.
+2) Then create the exe of gui and all contain in interface folder.
+3) Move them into the root of our project and load gui.

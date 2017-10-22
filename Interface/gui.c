@@ -13,6 +13,7 @@ void call_black_and_white_fonction()
     char end[] = " p";
     strcat(begin,end);
     system(begin);
+    system("./gui");
     
 }
 void NeuralNet()

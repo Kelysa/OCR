@@ -58,7 +58,8 @@ GtkWidget *Header()//GtkWidget *window)
   g_signal_connect(G_OBJECT(start), "clicked", G_CALLBACK(NeuralNet), NULL);
   GtkWidget *bandw = gtk_button_new();
   gtk_button_set_label(GTK_BUTTON(bandw), "B & W");
-  g_signal_connect(G_OBJECT(bandw), "clicked", G_CALLBACK(call_black_and_white_fonction), NULL);
+  g_signal_connect(G_OBJECT(bandw), "clicked",
+		   G_CALLBACK(call_black_and_white_fonction), NULL);
   GtkWidget *cut = gtk_button_new();
   gtk_button_set_label(GTK_BUTTON(cut), "Cut");
   g_signal_connect(G_OBJECT(cut), "clicked", G_CALLBACK(Seg), NULL);

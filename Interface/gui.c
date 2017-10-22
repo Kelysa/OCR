@@ -34,18 +34,15 @@ GtkWidget *Header()//GtkWidget *window)
   
   GtkWidget *start = gtk_button_new();
   gtk_button_set_label(GTK_BUTTON(start), "Start");
-  GtkWidget *path = gtk_button_new();
-  gtk_button_set_label(GTK_BUTTON(path), "File");
-  GtkWidget *perct = gtk_entry_new();
-  gtk_entry_set_max_length(GTK_ENTRY(perct), 3);
-  gtk_entry_set_width_chars(GTK_ENTRY(perct), 3);
-  
-  GtkWidget *perctText = gtk_label_new("%     ");
+  GtkWidget *bandw = gtk_button_new();
+  gtk_button_set_label(GTK_BUTTON(bandw), "B & W");
+  GtkWidget *cut = gtk_button_new();
+  gtk_button_set_label(GTK_BUTTON(cut), "Cut");
+ 
   
   
-  gtk_container_add(GTK_CONTAINER(res), path);
-  gtk_container_add(GTK_CONTAINER(res), perct);
-  gtk_container_add(GTK_CONTAINER(res), perctText);
+  gtk_container_add(GTK_CONTAINER(res), bandw);
+  gtk_container_add(GTK_CONTAINER(res), cut);
   gtk_container_add(GTK_CONTAINER(res), start);
 
   return res;

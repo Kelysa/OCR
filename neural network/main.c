@@ -37,7 +37,9 @@ int main()
   
   int j = 0;
   int s= 0;
-
+  double val_abs;
+  int la;
+  int ha;
   while(s != 4)
   {
     s = 0;
@@ -46,7 +48,10 @@ int main()
         putEnter(layer, enter, i);
         forward(size, lw, layer, biais, lz);
         puterror(error,layer,sortie,size, i);
-        if(abso(error[size-1].List[error[size-1].height -1][error[size-1].width -1]) < 0.05 )
+        la = error[size-1].width -1;
+        ha = error[size-1].height -1;
+        val_abs = abso(error[size-1].List[ha][la]);
+        if(val_abs< 0.05 )
         {
             s+=1;
         } 
@@ -57,12 +62,15 @@ int main()
   printf("===================Neural Network======================\n");
 
   printf("nombre d'iteration : %d \n", j);
+  double lay;
   for(int i = 0; i< 4; i++)
   {
     putEnter(layer, enter, i);
     forward(size, lw, layer, biais, lz);
     printf("  entrer           sortie\n");
-    printf("%4g    %4g           valeur:%4g  voulu:%4g \n", enter[(i*2)],enter[(i*2)+1], layer[size-1].List[layer[size-1].height-1][layer[size-1].width-1], sortie[i]);
+    lay =  layer[size-1].List[layer[size-1].height-1][layer[size-1].width-1];
+    printf("%4g    %4g       ", enter[(i*2)],enter[(i*2)+1]);
+    printf("valeur:%4g  voulu:%4g \n",lay, sortie[i]);
   }
 
   printf("==========================================================\n");

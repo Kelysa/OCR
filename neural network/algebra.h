@@ -28,7 +28,7 @@ struct matrix
  * applies a function to all element on a vector of size n
  * for i in 0..size, res[i] = f[vect[i]]
  */
-void vector_apply(func_t f, double** vect, int height, int width, double** res);
+void vector_apply(func_t f, double** vect, int height,int width,double** res);
 
 
 double sigmoid(double x);

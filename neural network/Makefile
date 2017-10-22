@@ -7,16 +7,16 @@ CFLAGS= -Wall -Wextra -Werror -std=c99 -O3
 LDFLAGS=
 LDLIBS= `pkg-config --libs` -lm
  
-SRC= algebra.c main.c tools_network.c correction.c
-OBJ= ${SRC:.c=.o}
-DEP= ${SRC:.c=.d}
+OBJ= algebra.o main.o tools_network.o correction.o
+DEP= ${SRC:.o=.d}
  
 all: main
  
 main: ${OBJ}
  
 clean:
-	rm -f ${OBJ} ${DEP} main
+	${RM} ${OBJ} ${DEP} *~
+	${RM} main
  
 -include ${DEP}
  

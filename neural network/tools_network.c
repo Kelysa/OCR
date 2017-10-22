@@ -39,7 +39,7 @@ double** matw(int height, int width)
     {exit(0);}
     for(int j = 0; j < width;j++)
     {
-      w[i][j]=((double)rand() /(double)RAND_MAX)*20 -10 ; 
+      w[i][j]=((double)rand() /(double)RAND_MAX)*20 -10;
     }
   }
 
@@ -75,14 +75,18 @@ matrix* makeLayer(int L[], int size, int nb)
     return layer;
 }
 
-void forward( int sizeL, matrix* lw, matrix* layer, matrix* biais, matrix* lz )
+void forward( int sizeL, matrix* lw, matrix* layer, matrix* biais, matrix* lz)
 {
+  double** l;
+  double** l1;
   for(int i = 0; i < sizeL-1; i++)
   {
-    mul(layer[i].List, lw[i].List, layer[i].height, lw[i].height, lw[i].width, layer[i+1].List );
-    add(layer[i].List, biais[i].List, layer[i].height, layer[i].width ); // a revoir
-    copy(layer[i+1].List, lz[i+1].List ,layer[i+1].height, layer[i+1].width);
-    vector_apply(sigmoid, layer[i+1].List, layer[i+1].height, layer[i+1].width,layer[i+1].List);
+    l = layer[i].List;
+    l1 = layer[i+1].List;
+    mul(l, lw[i].List, layer[i].height, lw[i].height, lw[i].width, l1);
+    add(l, biais[i].List, layer[i].height, layer[i].width ); // a revoir
+    copy(l1, lz[i+1].List ,layer[i+1].height, layer[i+1].width);
+    vector_apply(sigmoid, l1, layer[i+1].height, layer[i+1].width,l1);
     
   }
 }

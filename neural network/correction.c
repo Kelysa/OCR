@@ -11,9 +11,11 @@ double deriver_sigmoid(double x)
     return sigmoid(x) * (1 - sigmoid(x));
 }
 
-void corr(matrix* layer, matrix* lz, matrix* lw, matrix* error, int L[], int size)
+void corr(matrix* layer,matrix* lz, matrix* lw,matrix* error,int L[],int size)
 {
     int l = lz[0].width;
+    double deriv;
+    double valErr;
     l++;
     for(int i =0; i< size-1; i++) // pour chaque couche 
     {
@@ -23,19 +25,19 @@ void corr(matrix* layer, matrix* lz, matrix* lw, matrix* error, int L[], int siz
 
                 for(int h =0; h < layer[size - 2 - i].width; h++)
                 {
-                     s += error[size - 1 - i].List[0][h] * lw[size - 2 - i].List[x][h]; 
+                     s+=error[size-1-i].List[0][h]*lw[size-2-i].List[x][h];
                 }
-
-                error[size - 2 - i].List[0][x] = deriver_sigmoid(lz[size - 2 - i].List[0][x]) * s ;
+                deriv = deriver_sigmoid(lz[size-2-i].List[0][x]);
+                error[size-2-i].List[0][x]=deriv*s;
                 
                 
             }
-        for(int y =0; y< lw[size-2 - i].height; y++) // nb test
+        for(int y =0; y< lw[size-2 - i].height; y++)
         {
-            for(int x =0; x< lw[size-2 - i].width; x++) // neurone x d'une couche i
+            for(int x =0; x< lw[size-2 - i].width; x++)
             {
-                
-                lw[size-2 - i].List[y][x] -= layer[size-2 - i].List[0][y] * error[size -1 -i].List[0][x];
+                valErr = error[size-1-i].List[0][x];
+                lw[size-2-i].List[y][x]-=layer[size-2-i].List[0][y]*valErr;
                 
             }
         }
@@ -50,24 +52,3 @@ void puterror(matrix* error, matrix* layer, double val[], int size, int j)
         error[size-1].List[0][i] =  layer[size-1].List[0][i] - val[j] ;
     }
 }
-
-/*int training (int L[], int size, matrix* layer, matrix* lw, matrix* lz, matrix* error, matrix* biais, double sortie[], double enter[])
-{
-    int s = 0;
-    for(int i = 0; i < 4; i++)
-    {
-        putEnter(layer, enter, i);
-        forward(size, lw, layer, biais, lz);
-        puterror(error,layer,sortie,size, i);
-        if(abs(error[size-1].List[error[size-1].height][error[size-1].width]) < 0.05)
-        {
-            s+=1;
-        }
-        corr(layer, lz, lw, error, L, size);
-    }
-    if(s == 4)
-    {
-        return 0;
-    }
-    return 1;
-}*/

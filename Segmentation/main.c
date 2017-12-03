@@ -20,6 +20,7 @@ int main(int argc, char *path[])
   //findendletters(surface,begin,0);
   int *colum = cutcolum(surface,line);
   addcoord (surface,line,colum);
+  print_matrix (surface,line,colum);
   display_image(surface);
   SDL_FreeSurface(surface);
   return 0;

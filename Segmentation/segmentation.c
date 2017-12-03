@@ -274,34 +274,44 @@ int* cutcolum(SDL_Surface *surface,int* begin)
 
 }
 
-void print_matrix (SDL_Surface *surface,int beginposx,int endposx, 
-int beginposy,int endposy)
+void print_matrix (SDL_Surface *surface,int* line,int* colum)
 {
   Uint8 r = 0, g = 0, b = 0;
   printf("\n");
   printf("{");
-  for(int i = beginposy; i < endposy-1 ; i++)
-  {
-    for(int j = beginposx; j< endposx-1; j++)
-    {
-      SDL_GetRGB(getpixel(surface,i+1,j+1), surface->format, &r, &g, &b);
-      if ((r&&g&&b) == 0)
-  	{
-  	  printf("1");
-  	}
-      else
-        {
-          printf("0");
+  int x = *(colum);
+  while (*(line+3) != 0 && *(colum+3)!=0)
+  { 
+    for(int j = *(line); j < *(line+1) ; j++)
+     {
+      for(int i = *(colum); i < *(colum+1); i++)
+       {
+         SDL_GetRGB(getpixel(surface,i+1,j), surface->format, &r, &g, &b);
+          if ((r&&g&&b) == 0)
+            {
+  	      printf("1");
+  	    }
+          else
+            {
+              printf("0");
+            }
         }
-    }
-    printf("\n");
+        printf("\n");
+
+      }
+      printf("}");
+      printf("\n");
+      printf("\n");
+      colum +=2;
+      if (x > *(colum))
+       {
+	 line +=2;
+       }
+      x = *(colum);
 
   }
-  printf("}");
-  printf("\n");
-  printf("\n");
 }
-
+  
 void addcoord (SDL_Surface *surface,int* line, int*colum)
 {
   FILE* fichier = NULL;
@@ -337,7 +347,6 @@ void addcoord (SDL_Surface *surface,int* line, int*colum)
 		   fprintf(fichier,"%d,",beginposx);
 		   fprintf(fichier,"%d,",endposx);
 		   x+=2;
-		   //print_matrix (surface,beginposx,endposx,beginposy,endposy);
           	}
       }
     }

@@ -158,6 +158,7 @@ int findfirstline(SDL_Surface *surface,int posy)
 int findendline(SDL_Surface *surface,int posy)
 {
   Uint8 r = 0, g = 0, b = 0;
+
   int x =0;
   for (int j = posy; j < (surface->h)-1; j++)
   {

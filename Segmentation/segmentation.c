@@ -106,7 +106,7 @@ void drawBorders(SDL_Surface *surface, int* x, int y)
 {
   SDL_LockSurface(surface);
 
-  for (int j = *x; j < *(x+1); j++)
+  for (int j = (*x); j < *(x+1); j++)
   {
     putpixel(surface, y, j, SDL_MapRGB(surface->format, 0, 0, 255));
   }

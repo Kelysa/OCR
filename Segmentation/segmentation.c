@@ -274,31 +274,43 @@ int* cutcolum(SDL_Surface *surface,int* begin)
 
 }
 
-void print_matrix (SDL_Surface *surface,int* line,int* colum)
+matrix* print_matrix (SDL_Surface *surface,int* line,int* colum)
 {
+  matrix* lw = NULL;
+  lw = malloc(1024 * sizeof(matrix));
   Uint8 r = 0, g = 0, b = 0;
   printf("\n");
   printf("{");
   int x = *(colum);
+  int compteur = 0;
+  double** list = malloc(1024 * sizeof(double*));
   while (*(line+3) != 0 && *(colum+3)!=0)
   { 
     for(int j = *(line); j < *(line+1) ; j++)
      {
       for(int i = *(colum); i < *(colum+1); i++)
        {
-         SDL_GetRGB(getpixel(surface,i+1,j), surface->format, &r, &g, &b);
+	 list[i] = malloc(sizeof(double) *1024);
+         SDL_GetRGB(getpixel(surface,i+1,j),
+		    surface->format, &r, &g, &b);
           if ((r&&g&&b) == 0)
             {
+	      list[i][j] = 1;
   	      printf("1");
   	    }
           else
             {
+	      list[i][j] = 0;
               printf("0");
             }
         }
         printf("\n");
 
       }
+      lw[compteur].width = 1024;
+      lw[compteur].height = 1024 ;
+      lw[compteur].List = list;
+      compteur++;
       printf("}");
       printf("\n");
       printf("\n");
@@ -307,9 +319,9 @@ void print_matrix (SDL_Surface *surface,int* line,int* colum)
        {
 	 line +=2;
        }
-      x = *(colum);
-
+      x = *(colum);  
   }
+  return lw;
 }
   
 void addcoord (SDL_Surface *surface,int* line, int*colum)

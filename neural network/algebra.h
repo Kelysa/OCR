@@ -20,8 +20,9 @@ struct matrix
   double** List;
 };
 
+void matricefile (double* matrice, int col, int line);
 
-
+double* filetomatrice(FILE* fichier, int line, int col);
  
 /*
  * vector_apply(f, vect, size, res)

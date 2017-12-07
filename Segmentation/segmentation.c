@@ -274,6 +274,26 @@ int* cutcolum(SDL_Surface *surface,int* begin)
 
 }
 
+double** matw(int height, int width)
+{
+  double** w = NULL;
+  w = malloc((height) * sizeof(double*));
+  if(w == NULL){
+      exit(0);
+  }
+  for(int i = 0; i < height;i++)
+  {
+    if((w[i] = malloc(sizeof(double) * width)) == NULL)
+    {exit(0);}
+    for(int j = 0; j < width;j++)
+    {
+      w[i][j]=((double)rand() /(double)RAND_MAX)*20 -10;
+    }
+  }
+
+  return w;
+}
+
 matrix* print_matrix (SDL_Surface *surface,int* line,int* colum)
 {
   matrix* lw = NULL;
@@ -283,43 +303,49 @@ matrix* print_matrix (SDL_Surface *surface,int* line,int* colum)
   printf("{");
   int x = *(colum);
   int compteur = 0;
-  double** list = malloc(1024 * sizeof(double*));
+  double** list;
+  int a = 0;
+  int c =0;
   while (*(line+3) != 0 && *(colum+3)!=0)
-  { 
+  {
+    list = matw(*(line+1)-*line,*(colum+1)-*colum);
+    a = 0;
+    c = 0;
     for(int j = *(line); j < *(line+1) ; j++)
      {
       for(int i = *(colum); i < *(colum+1); i++)
        {
-	 list[i] = malloc(sizeof(double) *1024);
-         SDL_GetRGB(getpixel(surface,i+1,j),
+          SDL_GetRGB(getpixel(surface,i+1,j),
 		    surface->format, &r, &g, &b);
           if ((r&&g&&b) == 0)
             {
-	      list[i][j] = 1;
+	      list[a][c] = 1.0;
   	      printf("1");
   	    }
           else
             {
-	      list[i][j] = 0;
-              printf("0");
+	      list[a][c] = 0.0;
+	      printf("0");
             }
+	  c+=1;
         }
-        printf("\n");
-
+      a ++;
+      c = 0;
+      printf("\n");
       }
-      lw[compteur].width = 1024;
-      lw[compteur].height = 1024;
-      lw[compteur].List = list;
-      compteur++;
-      printf("}");
-      printf("\n");
-      printf("\n");
-      colum +=2;
-      if (x > *(colum))
-       {
-	 line +=2;
-       }
-      x = *(colum);  
+    lw[compteur].width = *(colum+1)-*(colum); 
+    lw[compteur].height = *(line+1)-*(line);
+    lw[compteur].List = list;
+    compteur++;
+    printf("}");
+    printf("\n");
+    printf("\n");
+    colum +=2;
+    if (x > *(colum))
+     {
+       line +=2;
+     }
+    x = *(colum);  
   }
   return lw;
 }

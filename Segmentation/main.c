@@ -44,7 +44,7 @@ int main(int argc, char *path[])
   matrix* matrice = print_matrix(newsurface,line,colum);
   free(colum);
   free(line);
-  pprint(matrice,1);
+  pprint(matrice,3);
   display_image(surface);
   SDL_FreeSurface(surface);
   free(matrice);

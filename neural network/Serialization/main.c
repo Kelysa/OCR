@@ -27,13 +27,22 @@ int main ()
    l2[1][0] = -5; l2[1][1] = -5; l2[1][2] = -5;  
    l2[2] = malloc(sizeof(double) * width); 
    l2[2][0] = -5; l2[2][1] = -5; l2[2][2] = -5; 
+
+
+  /* a prendre */
   FILE* fichier = fopen("poid.txt", "w+");
   matricefile(l,width,height,fichier);
   matricefile(l2,width2,height2,fichier);  
   fclose(fichier); 
   l = filetomatrice(height, width); 
-  printf("\n");
-  print_matrix(l, height, width);
+  //printf("\n");
+  //print_matrix(l, height, width);
+ /*les fonctions sont déjà dans la .h , copie juste ce main*/
+ /*( et tu remplace l par ta 1ere matrice)*/
+ /*( et l2 par ta 2eme matrice) , bref tu enregistres autant de matrice que tu veux*/
+ /*tu remplaces aussi width et height par la taille de la hauteur et largeur de ta matrice */
+
+
  
 }
 

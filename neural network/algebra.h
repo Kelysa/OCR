@@ -20,7 +20,7 @@ struct matrix
   double** List;
 };
 
-void matricefile (double** matrice, int col, int line);
+void matricefile (double** matrice, int col, int line,FILE* fichier);
 
 double** filetomatrice(int line, int col);
  

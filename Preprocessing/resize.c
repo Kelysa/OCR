@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <math.h>
 
+#define KRED "\x1B[31m"
+#define KNRM "\x1B[0m"
+
+//#include "resize.h"
+
 struct matrix {
   size_t h, w;
   double *tab;
@@ -12,12 +17,15 @@ struct matrix_d {
   double **tab;
 };
 
-void print_matrix(double mat[], size_t lines, size_t cols)
-{  
-  for(size_t i = 0; i < lines; i++) {
+void print_matrix(struct matrix *mat)
+{
+  for(size_t i = 0; i < mat->h; i++) {
     printf("\n");
-    for(size_t j = 0; j < cols; j++)
-      printf("%.2f   ", mat[j + i * cols]);
+    for(size_t j = 0; j < mat->w; j++)
+      if(mat->tab[j+i*mat->w] != 0)
+	printf("%s %.2f   ", KRED, mat->tab[j + i * mat->w]);
+      else
+	printf("%s %.2f   ", KNRM, mat->tab[j + i * mat->w]);
   }
   printf("\n");
 }
@@ -84,8 +92,6 @@ struct matrix *resize_matrix(struct matrix *src, size_t newH, size_t newW)
   size_t coefH = floor((double)src->h/(double)dst->h);
   size_t coefW = floor((double)src->w/(double)dst->w);
 
-  //printf("COEFW : %ld \n\n", coefW);
-  
   double *temp = malloc(sizeof(double)*src->h*dst->w);
   
   for(size_t i = 0; i < src->h; i++) {
@@ -93,14 +99,11 @@ struct matrix *resize_matrix(struct matrix *src, size_t newH, size_t newW)
     for(size_t j = 0; j < src->w /*dst->w*/; j++) {
       buff += src->tab[i*src->w+j];
       if((j+1)%coefW == 0) {
-	//printf("%ld & %d & %.2f\n", j, i*dst->w+j/coefW, buff/(double)coefW);
 	temp[i*dst->w+j/coefW] = /*(double)floor*/(buff/(double)coefW);
 	buff = 0;
       }
     }
   }
-
-  //print_matrix(temp, src->h, dst->w);
 
   for(size_t i = 0; i < dst->w; i++) {
     double buff = 0;
@@ -125,30 +128,20 @@ struct matrix_d *resize_matrix_d(struct matrix_d *src, size_t newH, size_t newW)
 }
 
 int main()
-{  
+{
   struct matrix *m = malloc(sizeof(struct matrix));
-  m->h = 10;
+  m->h = 20;
   m->w = 10;
   m->tab = malloc(sizeof(double)*m->h*m->w);
-  m->tab[0] = 1;
-  m->tab[1] = 9;
-  m->tab[4] = 1;
-  m->tab[5] = 8;
-  m->tab[10] = 1;
-  m->tab[20] = 1;
-  
-  struct matrix *m_resize = resize_matrix(m, 5, 5);
-  
-  print_matrix(m->tab, m->h, m->w);
-  print_matrix(m_resize->tab, m_resize->h, m_resize->w);
-  
-  free(m->tab);
-  free(m);
-  /*
-    free(m_resize->tab);
-    free(m_resize);
-  */
 
-  struct matrix *m_cpy = from_matrix_d_to_matrix(from_matrix_to_matrix_d(m_resize));
-  print_matrix(m_cpy->tab, m_cpy->h, m_cpy->w);
+  for(size_t i = 0, j = 0; i < m->h && j < m->w; i+=1, j+=1) {
+      m->tab[i*m->w+j] = 1;
+      m->tab[(m->w-i)*m->w+j] = 1;
+  }
+
+  
+  print_matrix(m);
+  
+  struct matrix *m_resize = resize_matrix(m, 10, 5);
+  print_matrix(m_resize);
 }

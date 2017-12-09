@@ -16,12 +16,12 @@ void call_black_and_white_fonction()
     {
       g_path+=i+1;
     }
-    strcat(begin,g_path);
-    char end[] = " p";
-    strcat(begin,end);
-    
-    system(begin);
-    
+  strcat(begin,g_path);
+  char end[] = " p";
+  strcat(begin,end);
+  
+  system(begin);
+  
 }
 void NeuralNet()
 {
@@ -39,23 +39,23 @@ char *Opening(GtkWidget *window)
   GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
   gint res;
   char *filename;
-
+  
   dialog = gtk_file_chooser_dialog_new ("Open File", GTK_WINDOW(window), action,
 					"Cancel", GTK_RESPONSE_CANCEL,
 					"Open", GTK_RESPONSE_ACCEPT, NULL);
-
+  
   res = gtk_dialog_run (GTK_DIALOG (dialog));
   if (res == GTK_RESPONSE_ACCEPT)
     {
       GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
       filename = gtk_file_chooser_get_filename (chooser);
     }
-
+  
   gtk_widget_destroy (dialog);
   return filename;
 }
 
- 
+
 GtkWidget *Header()//GtkWidget *window)
 {
   GtkWidget *res = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,10);

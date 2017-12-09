@@ -34,19 +34,18 @@ int main(int argc, char *path[])
 {
   if (argc==2)
     {
-      //give_matrix(path[1]);
-      SDL_Surface *surface = IMG_Load(path[1]);
-      build_matrix_im (surface);
+      give_matrix(path[1]);
       return 1;
     }
-  //int taille;
-  //char** listchar = listOfLearning("/home/julie/Documents/OCR/neural network S2",&taille);
-  //printf("%s\n",listchar[2]);
+
+  int taille;
+  char** listchar = listOfLearning("learning/",&taille);
+  printf("%s\n",listchar[2]);
   //matrix l =  initLearningByPath(listchar[2],"learning/").mat;
   //print_matrix(l.List, l.height, l.width);
 
-  //tuple* list_tuple =  make_list_tuple(listchar,taille);
-  //pprint(list_tuple[1].mat,1);
+  tuple* list_tuple =  make_list_tuple(listchar,taille);
+  pprint(list_tuple[1].mat,1);
   
   /*srand(time(NULL));
   int size = 3;

@@ -401,15 +401,14 @@ matrix build_matrix_im (SDL_Surface *surface)
   Uint8 r = 0, g = 0, b = 0;
   printf("\n");
   printf("{");
-  double** list;
   int a = 0;
   int c =0;
-  list = matw(surface->w,surface->h);
-  for(int j = 0; j < surface->w ; j++)
+  double** list = matw(surface->h,surface->w);
+  for(int j = 0; j < surface->h ; j++)
     {
-    for(int i = 0; i < surface->h; i++)
+    for(int i = 0; i < surface->w; i++)
       {
-      SDL_GetRGB(getpixel(surface,i+1,j),
+      SDL_GetRGB(getpixel(surface,i,j),
 		  surface->format, &r, &g, &b);
       if ((r&&g&&b) == 0)
         {
@@ -421,7 +420,7 @@ matrix build_matrix_im (SDL_Surface *surface)
 	      list[a][c] = 0.0;
 	      printf("0");
         }
-	    c+=1;
+      c+=1;
       }
     a ++;
     c = 0;

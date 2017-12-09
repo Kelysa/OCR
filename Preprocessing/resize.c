@@ -88,34 +88,106 @@ struct matrix *resize_matrix(struct matrix *src, size_t newH, size_t newW)
   dst->h = newH;
   dst->w = newW;
   dst->tab = malloc(sizeof(double)*dst->h*dst->w);
-  
-  size_t coefH = floor((double)src->h/(double)dst->h);
-  size_t coefW = floor((double)src->w/(double)dst->w);
 
   double *temp = malloc(sizeof(double)*src->h*dst->w);
   
-  for(size_t i = 0; i < src->h; i++) {
-    double buff = 0;
-    for(size_t j = 0; j < src->w /*dst->w*/; j++) {
-      buff += src->tab[i*src->w+j];
-      if((j+1)%coefW == 0) {
-	temp[i*dst->w+j/coefW] = /*(double)floor*/(buff/(double)coefW);
-	buff = 0;
+  size_t coefH;
+  size_t coefW;
+  float restH;
+  float restW;
+  //float refH;
+  //float refW;
+
+  if(src->w >= dst->w) {
+ 
+    //coefW = src->w/dst->w;
+    restW = (float)src->w/(float)dst->w; 
+    if(restW != 0)
+      coefW = (size_t)restW+1;
+    else
+      coefW = (size_t)restW;
+    //restW = restW-coefW;
+    //refW = restW;
+    
+    //printf("%f & %ld\n", refW, coefW);
+
+    /*
+    for(size_t i = 0; i < src->h; i++) {
+      double buff = 0;
+      for(size_t j = 0, k = 0; j < src->w; j++, k++) {
+	buff += src->tab[i*src->w+j];
+	//printf("%5f\n", restW);
+	if((k+1) == (coefW+(size_t)restW)) {
+	  //printf("BUFF = %.f & RESTW = %.2f\n", buff, restW);
+	  temp[i*dst->w+j/coefW] = (buff/((double)coefW+restW));
+	  buff = 0;
+	  k = 0;
+	  if(restW >= 1)
+	    restW -= 1;
+	  restW += refW;
+	}
+      }
+    }
+    */
+    for(size_t i = 0; i < src->h; i++) {
+      double buff = 0;
+      for(size_t j = 0; j < src->w; j++) {
+	buff += src->tab[i*src->w+j];
+	if((j+1)%coefW == 0) {
+ 	  temp[i*dst->w+j/coefW] = buff/(double)coefW;
+	  buff = 0;
+	}
+      }
+    }
+  }
+  
+  else {
+    coefW = floor((double)dst->w/(double)src->w);
+
+    for(size_t i = 0; i < src->h; i++) {
+      for(size_t j = 0, k = 0; j < src->w  && k < dst->w; j++) {
+	for(size_t l = 0; l < coefW; k++, l++) {
+	  temp[i*dst->w+k] = src->tab[i*src->w+j];
+	}
       }
     }
   }
 
-  for(size_t i = 0; i < dst->w; i++) {
-    double buff = 0;
-    for(size_t j = 0; j < src->h; j++) {
-      buff += temp[j*dst->w+i];
-      
-      if((j+1)%coefH == 0) {
-	dst->tab[j/coefH*dst->w+i] = buff/(double)coefH;
-	buff = 0;
+  if(src->h >= dst->h) {
+    
+    restH = (float)src->h/(float)dst->h; 
+    if(restH != 0)
+      coefH = (size_t)restH+1;
+    else
+      coefH = (size_t)restH;
+    //coefH = (int)/*floor*/((double)src->h/(double)dst->h);
+    
+    for(size_t i = 0; i < dst->w; i++) {
+      double buff = 0;
+      for(size_t j = 0; j < src->h; j++) {
+	buff += temp[j*dst->w+i];
+	
+	if((j+1)%coefH == 0) {
+	  dst->tab[j/coefH*dst->w+i] = buff/(double)coefH;
+	  buff = 0;
+	}
+      }
+    } 
+  }
+
+  else {
+    coefH = floor((double)dst->h/(double)src->h);
+
+    for(size_t i = 0; i < dst->w; i++) {
+      for(size_t j = 0, k = 0; j < src->h; j++) {
+	for(size_t l = 0; l < coefH; k++, l++) {
+	  dst->tab[k*dst->w+i] = temp[j*dst->w+i];
+	}
       }
     }
   }
+
+  
   free(temp);
 
   return dst;
@@ -139,9 +211,11 @@ int main()
       m->tab[(m->w-i)*m->w+j] = 1;
   }
 
+  m->tab[5] = 1;
+
   
   print_matrix(m);
   
-  struct matrix *m_resize = resize_matrix(m, 10, 5);
+  struct matrix *m_resize = resize_matrix(m, 10, 7);
   print_matrix(m_resize);
 }

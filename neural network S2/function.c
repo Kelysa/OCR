@@ -7,6 +7,7 @@
 #include "function.h"
 #include "tools_network.h"
 #include "correction.h"
+#include "tools_letter.h"
 
 
 
@@ -52,7 +53,7 @@ void print_matrix(double** mat, size_t cols , size_t lines)
     {
       for (size_t j = 0; j < lines; j++)
         {
-          printf("%4g ",mat[i][j]);
+          printf("%4g",mat[i][j]);
         }
       
       printf("\n");
@@ -87,11 +88,11 @@ double abso(double i)
   }
   return i;
 }
-double neural_network_training (network* reseau,double* enter, double* res, int L[])
+double neural_network_training (network* reseau,tuple enter, int L[])
 {
-  putEnter(reseau->layer, enter);
+  putEnter(reseau->layer, enter.list);
   forward(reseau->size,reseau->lw, reseau->layer, reseau->biais, reseau->lz);
-  puterror(reseau->error,reseau->layer,res , reseau->size);
+  puterror(reseau->error,reseau->layer,charTobin(enter.inputsChar) , reseau->size);
   double terr = errtaux(reseau->error, reseau->size);
   corr(reseau->layer, reseau->lz, reseau->lw, reseau->error, L, reseau->size);
   return terr;

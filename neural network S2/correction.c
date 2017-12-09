@@ -46,7 +46,7 @@ void corr(matrix* layer,matrix* lz, matrix* lw,matrix* error,int L[],int size)
     }
 }
 
-void puterror(matrix* error, matrix* layer, double* val, int size)
+void puterror(matrix* error, matrix* layer, int* val, int size)
 {
     for(int i = 0; i < layer[size-1].width; i++)
     {

@@ -7,14 +7,18 @@
 #ifndef _SOMEfunction_function_H_
 #define _SOMEfunction_function_H_
 
+#include "function.h"
 #include "tools_network.h"
 #include "correction.h"
+#include "tools_letter.h"
+
 /*
  * func_t: function pointer type
  */
 typedef double (*func_t)(double);
 typedef struct network network;
 typedef struct matrix matrix;
+typedef struct tuple tuple;
 
 
 
@@ -39,7 +43,7 @@ void pprint(matrix* l, int size);
  
 double abso(double i);
 
-double neural_network_training (network* reseau,double* enter, double* res, int L[]);
+double neural_network_training (network* reseau,tuple enter, int L[]);
 
 network* make_network(int size , int L[]);
 

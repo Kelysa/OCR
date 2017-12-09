@@ -4,12 +4,13 @@
 typedef struct network network;
 typedef struct matrix matrix;
 
+
 typedef struct tuple tuple;
 struct tuple
 {
   matrix mat;
+  double* list;
   char inputsChar;
-  int* bin;
 };
 
 int* charTobin(char letter);
@@ -20,4 +21,8 @@ char** listOfLearning(char* dirName, int *sizeOfList);
 char* concatenateString(char* string1, char* string2);
 tuple initLearningByPath(char* myPath, char* dir);
 tuple* make_list_tuple(char** listChar, int size);
+double* reductMatrix(double* myMatrix);
+double* matToList(matrix mat);
+
+double* reductMatrix(double* myMatrix);
 #endif //_TOOL_LETTER_H_

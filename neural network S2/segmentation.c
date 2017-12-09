@@ -399,8 +399,6 @@ matrix build_matrix_im (SDL_Surface *surface)
 {
   matrix lw;
   Uint8 r = 0, g = 0, b = 0;
-  printf("\n");
-  printf("{");
   double** list;
   int a = 0;
   int c =0;
@@ -414,24 +412,18 @@ matrix build_matrix_im (SDL_Surface *surface)
       if ((r&&g&&b) == 0)
         {
 	      list[a][c] = 1.0;
-  	    printf("1");
   	    }
       else
         {
 	      list[a][c] = 0.0;
-	      printf("0");
         }
 	    c+=1;
       }
     a ++;
     c = 0;
-    printf("\n");
     }
   lw.width = surface->w; 
   lw.height = surface->h;
   lw.List = list;
-  printf("}");
-  printf("\n");
-  printf("\n");
   return lw;
 }

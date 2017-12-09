@@ -30,5 +30,7 @@ void addcoord (SDL_Surface *surface,int* line, int*colum);
 matrix* build_matrix (SDL_Surface *surface,int* line, int*colum);
 
 matrix* give_matrix(char* path);
+matrix build_matrix_im (SDL_Surface *surface);
+matrix give_matrix_im(char* path);
 
 # endif

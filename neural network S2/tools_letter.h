@@ -7,7 +7,7 @@ typedef struct matrix matrix;
 typedef struct tuple tuple;
 struct tuple
 {
-  matrix* mat;
+  matrix mat;
   char inputsChar;
   int* bin;
 };

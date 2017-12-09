@@ -116,7 +116,7 @@ char* concatenateString(char* string1, char* string2){
 tuple initLearningByPath(char* myPath, char* dir){
     tuple learning;
     learning.inputsChar = myPath[0];
-    learning.mat =  give_matrix(concatenateString(dir, myPath));
+    learning.mat =  give_matrix_im(concatenateString(dir, myPath));
     learning.bin = charTobin(myPath[0]);
     return learning;
 }

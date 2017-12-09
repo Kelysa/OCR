@@ -387,3 +387,51 @@ matrix* give_matrix(char* path)
   matrix* matrice = build_matrix(newsurface,line,colum);
   return matrice;
 }
+
+matrix give_matrix_im(char* path)
+{
+  SDL_Surface *newsurface = IMG_Load(path);
+  matrix matrice = build_matrix_im(newsurface);
+  return matrice;
+}
+
+matrix build_matrix_im (SDL_Surface *surface)
+{
+  matrix lw;
+  Uint8 r = 0, g = 0, b = 0;
+  printf("\n");
+  printf("{");
+  double** list;
+  int a = 0;
+  int c =0;
+  list = matw(surface->w,surface->h);
+  for(int j = 0; j < surface->w ; j++)
+    {
+    for(int i = 0; i < surface->h; i++)
+      {
+      SDL_GetRGB(getpixel(surface,i+1,j),
+		  surface->format, &r, &g, &b);
+      if ((r&&g&&b) == 0)
+        {
+	      list[a][c] = 1.0;
+  	    printf("1");
+  	    }
+      else
+        {
+	      list[a][c] = 0.0;
+	      printf("0");
+        }
+	    c+=1;
+      }
+    a ++;
+    c = 0;
+    printf("\n");
+    }
+  lw.width = surface->w; 
+  lw.height = surface->h;
+  lw.List = list;
+  printf("}");
+  printf("\n");
+  printf("\n");
+  return lw;
+}

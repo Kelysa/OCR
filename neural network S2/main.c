@@ -41,7 +41,8 @@ int main(int argc, char *path[])
   int taille;
   char** listchar = listOfLearning("/home/thomas/Documents/neural network S2/learning/",&taille);
   printf("%s\n",listchar[2]);
-  pprint(initLearningByPath("e-Arial_Bold.ttf.bmp","learning/").mat,1);
+  matrix l =  initLearningByPath(listchar[2],"learning/").mat;
+  print_matrix(l.List, l.height, l.width);
 
   //tuple* list_tuple =  make_list_tuple(listchar,taille);
   //pprint(list_tuple[1].mat,1);

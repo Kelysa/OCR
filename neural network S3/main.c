@@ -46,22 +46,22 @@ int main(int argc, char *path[])
     char** listchar = listOfLearning("learning/",&taille);
 
     tuple* list_tuple =  make_list_tuple(listchar,taille);
-    /*for(int i = 0; i < taille; i++)
+    for(int i = 0; i < taille; i++)
     {
       int* b = charTobin(list_tuple[i].inputsChar);
       for(int j = 0; j< 8; j++)
         printf("%d",b[j]);
       printf("%c\n",list_tuple[i].inputsChar);
       matrix l = resize_matrix(list_tuple[i].mat, 30 ,25);
-      print_matrix(l.List, l.height, l.width);
+      print_matrixx(l.List, l.height, l.width);
       printf("\n");
-    }*/
-    printf("%c\n",list_tuple[2].inputsChar);  // cahnge le numero pour essayer avec des lettre differente
-    matrix mm = list_tuple[2].mat;                  // ici aussi
-    print_matrix(mm.List, mm.height, mm.width);
+    }
+    /*printf("%c\n",list_tuple[12].inputsChar);  // cahnge le numero pour essayer avec des lettre differente
+    matrix mm = list_tuple[12].mat;                  // ici aussi
+    print_matrixx(mm.List, mm.height, mm.width);
     mm = resize_matrix(mm, 30, 25);
     printf("\n");
-    print_matrix(mm.List, mm.height, mm.width);
+    print_matrixx(mm.List, mm.height, mm.width);*/
     
   
     srand(time(NULL));

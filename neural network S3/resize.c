@@ -108,10 +108,9 @@ matrix resize_matrix(matrix mat, int dstH, int dstW)
 	  r_mat.List[i][j] = 0;
       }
 
-  free(r);
-  free(g);
-  free(b);
-  free(mat.List);
+  //free(r);
+  //free(g);
+  //free(b);
   
   return r_mat;
 

@@ -52,12 +52,12 @@ int main(int argc, char *path[])
       for(int j = 0; j< 8; j++)
         printf("%d",b[j]);
       printf("%c\n",list_tuple[i].inputsChar);
-      matrix l = list_tuple[i].mat;
+      matrix l = resize_matrix(list_tuple[i].mat, 30 ,25);
       print_matrix(l.List, l.height, l.width);
       printf("\n");
     }*/
-    printf("%c\n",list_tuple[2].inputsChar);
-    matrix mm = list_tuple[2].mat;
+    printf("%c\n",list_tuple[2].inputsChar);  // cahnge le numero pour essayer avec des lettre differente
+    matrix mm = list_tuple[2].mat;                  // ici aussi
     print_matrix(mm.List, mm.height, mm.width);
     mm = resize_matrix(mm, 30, 25);
     printf("\n");

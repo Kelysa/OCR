@@ -3,8 +3,10 @@
 #include <stdlib.h>
 #include <err.h>
 
-#include "algebra.h"
+#include "function.h"
 #include "tools_network.h"
+#include "correction.h"
+#include "tools_letter.h"
 
 double deriver_sigmoid(double x)
 {
@@ -45,10 +47,16 @@ void corr(matrix* layer,matrix* lz, matrix* lw,matrix* error,int L[],int size)
     }
 }
 
-void puterror(matrix* error, matrix* layer, double val[], int size, int j)
+void puterror(matrix* error, matrix* layer, char letter, int size)
 {
+    int pos = neuroneactif(letter);
+    if(pos == -1)
+        printf("error");
     for(int i = 0; i < layer[size-1].width; i++)
     {
-        error[size-1].List[0][i] =  layer[size-1].List[0][i] - val[j] ;
+        if( i == pos)
+            error[size-1].List[0][i] =  layer[size-1].List[0][i] - 1 ;
+        else 
+            error[size-1].List[0][i] =  layer[size-1].List[0][i]  ;
     }
 }

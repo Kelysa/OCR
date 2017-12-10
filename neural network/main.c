@@ -3,76 +3,103 @@
 #include <stdlib.h>
 #include <time.h>
 
+# include <SDL/SDL_image.h>
+# include <SDL/SDL.h>
+#include "segmentation.h"
+#include <gtk/gtk.h>
  
-#include "algebra.h"
+#include "function.h"
 #include "tools_network.h"
 #include "correction.h"
+#include "tools_letter.h"
 
-double abso(double i)
+#include "resize.h"
+
+
+
+int training(network* net,tuple* enter,int L[], int nbexemple)
 {
-  if(i < 0)
+  double s= 0;
+  double val_abs;
+  for(int i = 0; i < nbexemple; i++)
   {
-    return -1 * i;
+    val_abs = neural_network_training(net, enter[i] ,L);
+    if(val_abs< 0.005 )
+    {
+        s+=1;
+    } 
   }
-  return i;
+  return s/((double)(nbexemple))*100 ;
 }
 
-int main()
+
+int main(int argc, char *path[])
 {
-  srand(time(NULL));
-  int size = 3;
-  int nb = 1;
-
-  int L[] = {2 ,15 , 1};
-  matrix* lw  = makeLW(L, size);
-  matrix* layer = makeLayer(L, size , nb);
-  matrix* lz = makeLayer(L, size , nb);
-  matrix* biais = makeLayer(L, size , nb);
-  matrix* error = makeLayer(L, size , nb);
-  
-  double sortie[] = {0 , 1 , 1 , 0};
-  double enter []  = {0,0,0,1,1,0,1,1};
-
-
-  
-  int j = 0;
-  int s= 0;
-  double val_abs;
-  int la;
-  int ha;
-  while(s != 4)
-  {
-    s = 0;
-    for(int i = 0; i < 4; i++)
+  if (argc==2)
     {
-        putEnter(layer, enter, i);
-        forward(size, lw, layer, biais, lz);
-        puterror(error,layer,sortie,size, i);
-        la = error[size-1].width -1;
-        ha = error[size-1].height -1;
-        val_abs = abso(error[size-1].List[ha][la]);
-        if(val_abs< 0.05 )
-        {
-            s+=1;
-        } 
-        corr(layer, lz, lw, error, L, size);
-      }
-    j++;
-  }
-  printf("===================Neural Network======================\n");
-
-  printf("nombre d'iteration : %d \n", j);
-  double lay;
-  for(int i = 0; i< 4; i++)
+      int size = 3;
+      int L[] = {750 ,200 , 52};
+      network* net = make_network(size, L);
+      net-> lw = alltomatrice(2);
+      print_matrix(net->lw[0].List,net->lw[0].height,net->lw[0].width);
+      int nbimage;
+      matrix * texte = give_matrix(path[1],&nbimage);
+      for(int i =0; i<nbimage;i++)
+	{  
+  	   if (verifline(texte[i]))
+		{
+	           printf("\n");
+		   continue;
+		}
+           double* a = matToList(texte[i]);
+           putEnter(net->layer, a);
+           forward(net->size,net->lw, net->layer, net->biais, net->lz);
+	   int index = findindex (net,L);
+	   char lettre = inttochar(index);
+	   printf("%c",lettre);
+	}
+      printf("\n");
+      return 1;
+    }
+  else
   {
-    putEnter(layer, enter, i);
-    forward(size, lw, layer, biais, lz);
-    printf("  entrer           sortie\n");
-    lay =  layer[size-1].List[layer[size-1].height-1][layer[size-1].width-1];
-    printf("%4g    %4g       ", enter[(i*2)],enter[(i*2)+1]);
-    printf("valeur:%4g  voulu:%4g \n",lay, sortie[i]);
-  }
+    int taille;
+    char** listchar = listOfLearning("learning/",&taille);
 
-  printf("==========================================================\n");
-  return 0; 
+    tuple* list_tuple =  make_list_tuple(listchar,taille);
+    for(int i = 0; i < taille; i++)
+    {
+      int* b = charTobin(list_tuple[i].inputsChar);
+      for(int j = 0; j< 8; j++)
+        printf("%d",b[j]);
+      printf("%c\n",list_tuple[i].inputsChar);
+      matrix l = resize_matrix(list_tuple[i].mat, 30 ,25);
+      print_matrixx(l.List, l.height, l.width);
+      printf("\n");
+    }
+    /*printf("%c\n",list_tuple[12].inputsChar);  // cahnge le numero pour essayer avec des lettre differente
+    matrix mm = list_tuple[12].mat;                  // ici aussi
+    print_matrixx(mm.List, mm.height, mm.width);
+    mm = resize_matrix(mm, 30, 25);
+    printf("\n");
+    print_matrixx(mm.List, mm.height, mm.width);*/
+    
+  
+    srand(time(NULL));
+    int size = 3;
+
+    int L[] = {750 ,200 , 52};
+    network* net = make_network(size, L);
+
+  
+  //############################################### 
+    int s= 0;
+    while(s < 2)
+    {
+      s= training(net,list_tuple, L,taille);
+      printf("reussite : %d \n",s);
+    }
+    savealltofile(net->lw,2);
+  }
+  return 0;
 }

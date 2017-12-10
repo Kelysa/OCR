@@ -21,5 +21,4 @@ tuple* make_list_tuple(char** listChar, int size);
 double* reductMatrix(double* myMatrix);
 double* matToList(matrix mat);
 
-double* reductMatrix(double* myMatrix);
 #endif //_TOOL_LETTER_H_

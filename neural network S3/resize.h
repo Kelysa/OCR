@@ -18,7 +18,7 @@ gboolean get_colors_by_coordinates(GdkPixbuf *pixbuf, gint x, gint y, guchar *re
 gboolean set_colors_by_coordinates(GdkPixbuf *pixbuf, gint x, gint y, guchar red, guchar green, guchar blue);
 
 
-matrix resize_matrix(matrix mat, size_t dstH, size_t dstW);
+matrix resize_matrix(matrix mat, int dstH, int dstW);
 
 
 #endif /* _RESIZE_H_ */

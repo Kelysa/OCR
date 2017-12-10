@@ -60,14 +60,14 @@ void print_matrixx(double **mat, size_t lines, size_t cols)
   for(size_t i = 0; i < lines; i++) {
     printf("\n");
     for(size_t j = 0; j < cols; j++) {
-      printf("%.f   ", mat[i][j]);
+      printf("%.f", mat[i][j]);
     }
   }
   printf("\n");
 
 }
 
-matrix resize_matrix(matrix mat, size_t dstH, size_t dstW)
+matrix resize_matrix(matrix mat, int dstH, int dstW)
 {
   
   GdkPixbuf *pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, 1, 8, mat.width, mat.height);
@@ -77,13 +77,13 @@ matrix resize_matrix(matrix mat, size_t dstH, size_t dstW)
       for(int j = 0; j < mat.width; j++)
 	{
 	  if(mat.List[i][j] == 0)
-	    set_colors_by_coordinates(pixbuf, i, j, 0, 0, 0);
+	    set_colors_by_coordinates(pixbuf, j, i, 0, 0, 0);
 	  else
-	    set_colors_by_coordinates(pixbuf, i, j, 255, 255, 255);	 
+	    set_colors_by_coordinates(pixbuf, j, i, 255, 255, 255);	 
 	}
     }
   
-  GdkPixbuf *r_pixbuf = gdk_pixbuf_scale_simple(pixbuf, dstW, dstH, GDK_INTERP_BILINEAR);
+  GdkPixbuf *r_pixbuf = gdk_pixbuf_scale_simple(pixbuf, dstW, dstH, GDK_INTERP_NEAREST);
   
   matrix r_mat;
   r_mat.height = dstH;
@@ -99,10 +99,11 @@ matrix resize_matrix(matrix mat, size_t dstH, size_t dstW)
   for(int i = 0; i < r_mat.height; i++)
     for(int j = 0; j < r_mat.width; j++)
       {
-	get_colors_by_coordinates(r_pixbuf, i, j, r, g, b);
+	get_colors_by_coordinates(r_pixbuf, j, i, r, g, b);
 	guchar t = 0.21**r+0.72**g+0.07**b;
-	if(t > 127)
-	  r_mat.List[i][j] = 255;
+	//printf("%d\n", *b);
+	if(t != 0)
+	  r_mat.List[i][j] = 1;
 	else
 	  r_mat.List[i][j] = 0;
       }
@@ -110,6 +111,9 @@ matrix resize_matrix(matrix mat, size_t dstH, size_t dstW)
   free(r);
   free(g);
   free(b);
+  free(mat.List);
   
   return r_mat;
+
+
 }

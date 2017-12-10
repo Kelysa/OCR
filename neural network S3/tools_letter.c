@@ -119,8 +119,9 @@ char* concatenateString(char* string1, char* string2){
 tuple initLearningByPath(char* myPath, char* dir){
     tuple learning;
     learning.inputsChar = myPath[0];
+    //learning.mat =  give_matrix_im(concatenateString(dir, myPath));
     learning.mat =  give_matrix_im(concatenateString(dir, myPath));
-    learning.list = matToList(learning.mat);
+    learning.list = matToList( learning.mat);
     return learning;
 }
 
@@ -155,60 +156,4 @@ double* matToList(matrix mat)
         }
     }
     return res;
-}
-
-double* reductMatrix(double* myMatrix){
-    int xmin = 0;
-    int xmax = 25;
-    int ymin = 0;
-    int ymax = 35;
-    int found = 0;
-    while(xmin < xmax && !found){
-        for(int i = ymin; i <= ymax && !found; i++){
-            if(myMatrix[i * 25 + xmin] == 1){
-                found = 1;
-            }
-        }
-        xmin++;
-    }
-    found = 0;
-    while(xmin < xmax && !found){
-        xmax--;
-        for(int i = ymin; i <= ymax && !found; i++){
-            if(myMatrix[i * 25 + xmax] == 1){
-                found = 1;
-            }
-        }
-    }
-    found = 0;
-    while(ymin < ymax && !found){
-        for(int i = xmin; i <= xmax && !found; i++){
-            if(myMatrix[25 * ymin + i] == 1){
-                found = 1;
-            }
-        }
-        ymin++;
-    }
-    found = 0;
-    while(ymin < ymax && !found){
-        ymax--;
-        for(int i = xmin; i <= xmax && !found; i++){
-            if(myMatrix[25 * ymax + i] == 1){
-                found = 1;
-            }
-        }
-    }
-    
-    double coefx = ((double)xmax - (double)xmin + 2) / 25;
-    double coefy = ((double)ymax - (double)ymin + 2) / 35;
-    double* newMatrix = calloc(25 * 35, sizeof(double));
-    if(newMatrix == NULL)
-        exit(1);
-    for(int i = 0; i < 35; i++){
-        for(int j = 0; j < 25; j++){
-            newMatrix[25 * i + j] = myMatrix[(int)((double)i * coefy + (double)ymin - 1) * 25 + (int)((double)j * coefx + (double)xmin - 1)];
-        }
-    }
-    free(myMatrix);
-    return newMatrix;
 }

@@ -42,7 +42,7 @@ int main(int argc, char *path[])
       network* net = make_network(size, L);
       net-> lw = alltomatrice(2);
       print_matrix(net->lw[0].List,net->lw[0].height,net->lw[0].width);
-      int nbimage;
+      int nbimage = 0;
       matrix * texte = give_matrix(path[1],&nbimage);
       for(int i =0; i<nbimage;i++)
 	{  

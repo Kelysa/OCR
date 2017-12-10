@@ -2,10 +2,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define KRED "\x1B[31m"
+#define KNRM "\x1B[0m"
+
 struct matrix {
   size_t h, w;
   double **tab;
 };
+
+
+void print_matrix(double **mat, size_t lines, size_t cols) {
+  for(size_t i = 0; i < lines; i++) {
+    printf("\n");
+    for(size_t j = 0; j < cols; j++) {
+      if(mat[i][j] != 0)
+	printf("%s %.f", KRED, mat[i][j]);
+      else
+	printf("%s %.f", KNRM, mat[i][j]);
+    }
+  }
+  
+  printf("\n");
+}
 
 gboolean get_colors_by_coordinates(GdkPixbuf *pixbuf, gint x, gint y, guchar *red, guchar *green, guchar *blue)
 {
@@ -51,18 +69,6 @@ gboolean set_colors_by_coordinates(GdkPixbuf *pixbuf, gint x, gint y, guchar red
   return TRUE;
 }
 
-void print_matrix(double **mat, size_t lines, size_t cols)
-{
-  for(size_t i = 0; i < lines; i++) {
-    printf("\n");
-    for(size_t j = 0; j < cols; j++) {
-      printf("%.f", mat[i][j]);
-    }
-  }
-  printf("\n");
-
-}
-
 struct matrix *resize_matrix(struct matrix *mat, size_t dstH, size_t dstW)
 {
   
@@ -80,30 +86,34 @@ struct matrix *resize_matrix(struct matrix *mat, size_t dstH, size_t dstW)
     }
   
   GdkPixbuf *r_pixbuf = gdk_pixbuf_scale_simple(pixbuf, dstW, dstH, GDK_INTERP_NEAREST);
+
+  printf("Segfault ?\n");
   
   struct matrix *r_mat = malloc(sizeof(struct matrix));
   r_mat->h = dstH;
   r_mat->w = dstW;
-  r_mat->tab = malloc(sizeof(double)*mat->h);
-  for(size_t i = 0; i < mat->h; i++)
-    r_mat->tab[i] = malloc(sizeof(double)*mat->w);    
+  r_mat->tab = malloc(sizeof(double)*r_mat->h);
+  for(size_t i = 0; i < r_mat->h; i++)
+    r_mat->tab[i] = malloc(sizeof(double)*r_mat->w);    
   
   guchar *r = malloc(sizeof(guchar)),
     *g = malloc(sizeof(guchar)),
     *b = malloc(sizeof(guchar));
+
+  printf("Segfault 2 ? \n");
   
   for(size_t i = 0; i < r_mat->h; i++)
     for(size_t j = 0; j < r_mat->w; j++)
       {
 	get_colors_by_coordinates(r_pixbuf, j, i, r, g, b);
 	guchar t = 0.21**r+0.72**g+0.07**b;
-	//printf("%d\n", *b);
+	//printf("%ld & %ld\n", i, j);
 	if(t != 0)
 	  r_mat->tab[i][j] = 1;
 	else
 	  r_mat->tab[i][j] = 0;
       }
-
+  
   free(r);
   free(g);
   free(b);
@@ -116,8 +126,8 @@ struct matrix *resize_matrix(struct matrix *mat, size_t dstH, size_t dstW)
 int main()
 {
   struct matrix *m = malloc(sizeof(struct matrix));
-  m->h = 70;
-  m->w = 70;
+  m->h = 20;
+  m->w = 40;
   m->tab = malloc(sizeof(double)*m->h);
   for(size_t i = 0; i < m->h; i++)
     m->tab[i] = malloc(sizeof(double)*m->w);
@@ -135,6 +145,16 @@ int main()
   
   print_matrix(m->tab, m->h, m->w);
   
-  struct matrix *m_resize = resize_matrix(m, 45, 40);
+  struct matrix *m_resize = resize_matrix(m, 50, 29);
   print_matrix(m_resize->tab, m_resize->h, m_resize->w);
+  for(size_t i = 0; i < m->h; i++)
+    free(m->tab[i]);
+  free(m->tab);
+  free(m);
+
+  for(size_t i = 0; i < m_resize->h; i++)
+    free(m_resize->tab[i]);
+  free(m_resize->tab);
+  free(m_resize);
+  
 }

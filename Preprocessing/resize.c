@@ -30,16 +30,18 @@ void print_matrix(struct matrix *mat)
   printf("\n");
 }
 
-void print_matrix_d(double **mat, size_t lines, size_t cols)
-{
+void print_matrix_d(double **mat, size_t lines, size_t cols) {
   for(size_t i = 0; i < lines; i++) {
     printf("\n");
     for(size_t j = 0; j < cols; j++) {
-      printf("%.2f   ", mat[i][j]);
+      if(mat->tab[j+i*mat->w] != 0)
+	printf("%s %.2f   ", KRED, mat->tab[i][j]);
+      else
+	printf("%s %.2f   ", KNRM, mat->tab[i][j]);
     }
   }
+  
   printf("\n");
-
 }
 
 struct matrix_d *from_matrix_to_matrix_d(struct matrix *mat)
@@ -98,7 +100,7 @@ struct matrix *resize_matrix(struct matrix *src, size_t newH, size_t newW)
   //float refH;
   //float refW;
 
-  if(src->w >= dst->w) {
+  if(src->w > dst->w) {
  
     //coefW = src->w/dst->w;
     restW = (float)src->w/(float)dst->w; 
@@ -153,7 +155,7 @@ struct matrix *resize_matrix(struct matrix *src, size_t newH, size_t newW)
     }
   }
 
-  if(src->h >= dst->h) {
+  if(src->h > dst->h) {
     
     restH = (float)src->h/(float)dst->h; 
     if(restH != 0)
@@ -216,6 +218,6 @@ int main()
   
   print_matrix(m);
   
-  struct matrix *m_resize = resize_matrix(m, 10, 7);
+  struct matrix *m_resize = resize_matrix(m, 60, 10);
   print_matrix(m_resize);
 }

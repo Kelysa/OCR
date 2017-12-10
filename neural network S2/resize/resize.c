@@ -56,7 +56,7 @@ void print_matrix(double **mat, size_t lines, size_t cols)
   for(size_t i = 0; i < lines; i++) {
     printf("\n");
     for(size_t j = 0; j < cols; j++) {
-      printf("%.f   ", mat[i][j]);
+      printf("%.f", mat[i][j]);
     }
   }
   printf("\n");
@@ -73,13 +73,13 @@ struct matrix *resize_matrix(struct matrix *mat, size_t dstH, size_t dstW)
       for(size_t j = 0; j < mat->w; j++)
 	{
 	  if(mat->tab[i][j] == 0)
-	    set_colors_by_coordinates(pixbuf, i, j, 0, 0, 0);
+	    set_colors_by_coordinates(pixbuf, j, i, 0, 0, 0);
 	  else
-	    set_colors_by_coordinates(pixbuf, i, j, 255, 255, 255);	 
+	    set_colors_by_coordinates(pixbuf, j, i, 255, 255, 255);	 
 	}
     }
   
-  GdkPixbuf *r_pixbuf = gdk_pixbuf_scale_simple(pixbuf, dstW, dstH, GDK_INTERP_BILINEAR);
+  GdkPixbuf *r_pixbuf = gdk_pixbuf_scale_simple(pixbuf, dstW, dstH, GDK_INTERP_NEAREST);
   
   struct matrix *r_mat = malloc(sizeof(struct matrix));
   r_mat->h = dstH;
@@ -95,10 +95,11 @@ struct matrix *resize_matrix(struct matrix *mat, size_t dstH, size_t dstW)
   for(size_t i = 0; i < r_mat->h; i++)
     for(size_t j = 0; j < r_mat->w; j++)
       {
-	get_colors_by_coordinates(r_pixbuf, i, j, r, g, b);
+	get_colors_by_coordinates(r_pixbuf, j, i, r, g, b);
 	guchar t = 0.21**r+0.72**g+0.07**b;
-	if(t > 127)
-	  r_mat->tab[i][j] = 255;
+	//printf("%d\n", *b);
+	if(t != 0)
+	  r_mat->tab[i][j] = 1;
 	else
 	  r_mat->tab[i][j] = 0;
       }
@@ -108,9 +109,32 @@ struct matrix *resize_matrix(struct matrix *mat, size_t dstH, size_t dstW)
   free(b);
   
   return r_mat;
+
+
 }
 
 int main()
 {
+  struct matrix *m = malloc(sizeof(struct matrix));
+  m->h = 70;
+  m->w = 70;
+  m->tab = malloc(sizeof(double)*m->h);
+  for(size_t i = 0; i < m->h; i++)
+    m->tab[i] = malloc(sizeof(double)*m->w);
 
+  
+  for(size_t i = 0, j = 0; (i+1) < m->h && j < m->w; i+=1, j+=1) {
+      m->tab[i][j] = 1;
+      m->tab[i+1][j] = 1;
+      //m->tab[m->w-i][j] = 1;
+  }
+  
+
+  m->tab[0][5] = 1;
+
+  
+  print_matrix(m->tab, m->h, m->w);
+  
+  struct matrix *m_resize = resize_matrix(m, 45, 40);
+  print_matrix(m_resize->tab, m_resize->h, m_resize->w);
 }

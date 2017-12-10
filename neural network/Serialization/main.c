@@ -34,9 +34,12 @@ int main ()
   matricefile(l,width,height,fichier);
   matricefile(l2,width2,height2,fichier);  
   fclose(fichier); 
-  l = filetomatrice(height, width); 
-  //printf("\n");
-  //print_matrix(l, height, width);
+  l = filetomatrice(height2, width2,0); 
+  l2 = filetomatrice(height2, width2,height*width); 
+  printf("\n");
+  print_matrix(l, height, width);
+  printf("\n");
+  print_matrix(l2, height, width);
  /*les fonctions sont déjà dans la .h , copie juste ce main*/
  /*( et tu remplace l par ta 1ere matrice)*/
  /*( et l2 par ta 2eme matrice) , bref tu enregistres autant de matrice que tu veux*/
@@ -72,7 +75,7 @@ char* gline(FILE* f)
 }
 
 
-double** filetomatrice(int height, int width)  
+double** filetomatrice(int height, int width,int delta)  
  {
     double** l  = malloc((height) * sizeof(double*));
     for(int i =0; i< height ; i++)
@@ -80,12 +83,16 @@ double** filetomatrice(int height, int width)
 	l[i] = malloc(sizeof(double) * width); 
       }
     FILE *fichier =fopen("poid.txt", "r");
-    
     int i =0;
     int j =0;
     int x = 1;
     double value;
     char* line = NULL;
+    while (delta--)
+      {
+        line = gline(fichier);
+	sscanf(line,"%lf",&value);
+      }
     while (x <= height*width)
       {
 	line = gline(fichier);

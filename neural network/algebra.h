@@ -22,7 +22,7 @@ struct matrix
 
 void matricefile (double** matrice, int col, int line,FILE* fichier);
 
-double** filetomatrice(int line, int col);
+double** filetomatrice(int line, int col, int delta);
  
 /*
  * vector_apply(f, vect, size, res)

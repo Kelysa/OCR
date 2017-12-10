@@ -44,5 +44,6 @@ void forward(int sizeL, matrix* lw, matrix* layer, matrix* biais, matrix* lz);
 void putEnter(matrix* layer, double* enter);
 void copy(double** layer , double** lz , int height , int width);
 void serialisation ( char *file, int L[], matrix* lw, int size);
+int IsEmpty(char * nom_fichier);
 
 #endif /* _TOOLSNET_H_ */

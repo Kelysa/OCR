@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <err.h>
 #include <time.h>
- 
+#include <string.h>
 #include "function.h"
 #include "tools_network.h"
 #include "correction.h"
@@ -230,4 +230,17 @@ int verifline(matrix letter)
 	}
     }
     return 1;
+}
+int IsEmpty(char * nom_fichier)
+{
+  FILE*fichier =fopen(nom_fichier,"r");
+  int caracterePremier = 0;
+  
+     //On lit le prmeier caractère du fichier
+     caracterePremier = fgetc(fichier);
+     if(caracterePremier==EOF)
+     {
+         return 1;//le fichier est vide donc on retourne 1
+     }
+     return 0;
 }

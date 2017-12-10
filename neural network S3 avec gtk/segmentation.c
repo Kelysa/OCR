@@ -277,7 +277,7 @@ int* cutcolum(SDL_Surface *surface,int* begin)
 
 }
 
-matrix* build_matrix (SDL_Surface *surface,int* line,int* colum)
+matrix* build_matrix (SDL_Surface *surface,int* line,int* colum , int* nbimage)
 {
   matrix* lw = NULL;
   lw = malloc(1024 * sizeof(matrix));
@@ -316,6 +316,7 @@ matrix* build_matrix (SDL_Surface *surface,int* line,int* colum)
       c = 0;
       printf("\n");
       }
+    *nbimage +=1;
     lw[compteur].width = *(colum+1)-*(colum); 
     lw[compteur].height = *(line+1)-*(line);
     lw[compteur].List = list;
@@ -375,7 +376,7 @@ void addcoord (SDL_Surface *surface,int* line, int*colum)
 }
 
 
-matrix* give_matrix(char* path)
+matrix* give_matrix(char* path,int* nbimage)
 {
   SDL_Surface *surface = IMG_Load(path);
   int* line = cutline(surface);
@@ -384,7 +385,7 @@ matrix* give_matrix(char* path)
   int *colum = cutcolum(surface,line);
   addcoord (surface,line,colum);
   SDL_Surface *newsurface = IMG_Load(path);
-  matrix* matrice = build_matrix(newsurface,line,colum);
+  matrix* matrice = build_matrix(newsurface,line,colum,nbimage);
   return matrice;
 }
 

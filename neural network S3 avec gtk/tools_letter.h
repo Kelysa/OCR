@@ -12,7 +12,7 @@ typedef struct tuple tuple;
 
 int* charTobin(char letter);
 char binTochar(int* L);
-
+char inttochar(int n);
 int neuroneactif(char letter);
 char** listOfLearning(char* dirName, int *sizeOfList);
 char* concatenateString(char* string1, char* string2);

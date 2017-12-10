@@ -37,7 +37,28 @@ int main(int argc, char *path[])
 {
   if (argc==2)
     {
-      give_matrix(path[1]);
+      int size = 3;
+      int L[] = {750 ,200 , 52};
+      network* net = make_network(size, L);
+      net-> lw = alltomatrice(2);
+      print_matrix(net->lw[0].List,net->lw[0].height,net->lw[0].width);
+      int nbimage;
+      matrix * texte = give_matrix(path[1],&nbimage);
+      for(int i =0; i<nbimage;i++)
+	{  
+  	   if (verifline(texte[i]))
+		{
+	           printf("\n");
+		   continue;
+		}
+           double* a = matToList(texte[i]);
+           putEnter(net->layer, a);
+           forward(net->size,net->lw, net->layer, net->biais, net->lz);
+	   int index = findindex (net,L);
+	   char lettre = inttochar(index);
+	   printf("%c",lettre);
+	}
+      printf("\n");
       return 1;
     }
   else
@@ -73,11 +94,12 @@ int main(int argc, char *path[])
   
   //############################################### 
     int s= 0;
-    while(s < 70)
+    while(s < 2)
     {
       s= training(net,list_tuple, L,taille);
       printf("reussite : %d \n",s);
     }
+    savealltofile(net->lw,2);
   }
   return 0;
 }

@@ -31,7 +31,18 @@ int neuroneactif(char letter)
     }
     return -1;
 }
-
+char inttochar(int n)
+{ 
+    if (n<26)
+    {
+        n+=65;
+    }
+    else 
+    {
+        n+=97-25;
+    }
+    return (char)(n);
+}
 
 int* charTobin(char letter)
 {

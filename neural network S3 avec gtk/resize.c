@@ -18,9 +18,9 @@ void print_matrixsimple(matrixsimple mat)
     printf("\n");
     for(int j = 0; j < mat.width; j++)
       if(mat.List[j+i*mat.width] != 0)
-	printf("%s %.2f   ", KRED, mat.List[j + i * mat.width]);
+	printf("%s%.2f", KRED, mat.List[j + i * mat.width]);
       else
-	printf("%s %.2f   ", KNRM, mat.List[j + i * mat.width]);
+	printf("%s%.2f", KNRM, mat.List[j + i * mat.width]);
   }
   printf("\n");
 }
@@ -31,9 +31,9 @@ void print_matrixx(double **mat, int lines, int cols)
     printf("\n");
     for(int j = 0; j < cols; j++) {
       if(mat[i][j] != 0)
-        printf("%s %4g",KRED, mat[i][j]);
+        printf("%s%4g",KRED, mat[i][j]);
       else
-        printf("%s %4g",KNRM, mat[i][j]);
+        printf("%s%4g",KNRM, mat[i][j]);
     }
   }
   printf("\n");

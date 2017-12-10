@@ -11,7 +11,7 @@ void print_tab(double** mat, size_t cols , size_t lines)
     {
       for (size_t j = 0; j < lines; j++)
         {
-          printf("%4g ",mat[i][j]);
+          printf("%4g",mat[i][j]);
         }
       
       printf("\n");
@@ -44,7 +44,7 @@ int main(int argc, char *path[])
   matrix* matrice = print_matrix(newsurface,line,colum);
   free(colum);
   free(line);
-  pprint(matrice,3);
+  //pprint(matrice,3);
   display_image(surface);
   SDL_FreeSurface(surface);
   free(matrice);

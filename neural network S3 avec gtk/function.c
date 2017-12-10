@@ -103,7 +103,7 @@ network* make_network(int size , int L[])
   network *net = malloc(sizeof(network));
   net->size = size;
   net->lw  = makeLW(L, size);
-  net->layer = makeLayer(L, size , 1);
+  net->layer = makeLayer(L, size, 1);
   net->lz = makeLayer(L, size , 1);
   net->biais = makeLayer(L, size , 1);
   net->error = makeLayer(L, size , 1);

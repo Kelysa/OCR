@@ -168,7 +168,7 @@ tuple* make_list_tuple(char** listChar, int size)
 double* matToList(matrix mat)
 {
     double* res = NULL;
-    res = malloc(sizeof(double)* (mat.height)*(mat.width));
+    res = malloc(sizeof(double*)*(mat.height)*(mat.width));
     if(res == NULL){
         exit(0);
     }

@@ -23,6 +23,8 @@ struct matrix
 void matricefile (double** matrice, int col, int line,FILE* fichier);
 
 double** filetomatrice(int line, int col, int delta);
+void savealltofile(matrix* matrice, int nbelement);
+matrix* alltomatrice(int nbelement);
  
 /*
  * vector_apply(f, vect, size, res)

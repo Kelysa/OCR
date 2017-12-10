@@ -289,6 +289,7 @@ matrix* build_matrix (SDL_Surface *surface,int* line,int* colum , int* nbimage)
   double** list;
   int a = 0;
   int c =0;
+  int espace = *(colum+1) - *colum;
   while (*(line+3) != 0 && *(colum+3)!=0)
   {
     list = matw(*(line+1)-*line,*(colum+1)-*colum);
@@ -317,6 +318,10 @@ matrix* build_matrix (SDL_Surface *surface,int* line,int* colum , int* nbimage)
       printf("\n");
       }
     *nbimage +=1;
+    if (espace <= *(colum+2)-*(colum+1))
+	{
+ 	  matriceblack(list,*(colum+1)-*(colum),*(line+1)-*(line));
+	}
     lw[compteur].width = *(colum+1)-*(colum); 
     lw[compteur].height = *(line+1)-*(line);
     lw[compteur].List = list;
@@ -427,4 +432,15 @@ matrix build_matrix_im (SDL_Surface *surface)
   lw.height = surface->h;
   lw.List = list;
   return lw;
+}
+
+void matriceblack(double** list,int width,int height)
+{
+   for(int i = 0; i < height ; i++)
+     {
+      for(int j = 0; j < width; j++)
+       {
+	  list[i][j] = 1;
+       }
+     }
 }

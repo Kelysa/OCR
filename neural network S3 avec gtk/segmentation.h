@@ -28,7 +28,7 @@ int* cutcolum(SDL_Surface *surface,int* begin);
 void wait_for_keypressed(void);
 void addcoord (SDL_Surface *surface,int* line, int*colum);
 matrix* build_matrix (SDL_Surface *surface,int* line, int*colum, int* nbimage);
-
+void matriceblack(double** list,int width,int height);
 matrix* give_matrix(char* path,int* nbimage);
 matrix build_matrix_im (SDL_Surface *surface);
 matrix give_matrix_im(char* path);

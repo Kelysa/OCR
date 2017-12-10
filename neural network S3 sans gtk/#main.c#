@@ -48,7 +48,6 @@ int main(int argc, char *path[])
     tuple* list_tuple =  make_list_tuple(listchar,taille);
     for(int i = 0; i < taille; i++)
     {
-
       int* b = charTobin(list_tuple[i].inputsChar);
       for(int j = 0; j< 8; j++)
         printf("%d",b[j]);
@@ -66,7 +65,7 @@ int main(int argc, char *path[])
     printf("\n");
     print_matrixx(mm.List, mm.height, mm.width);*/
 
-    for(int i = 0; i < taille; i++)
+    for(size_t i = 0; i < taille; i++)
       free(listchar[i]);
     free(listchar);
     free(list_tuple);

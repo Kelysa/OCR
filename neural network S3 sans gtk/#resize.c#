@@ -93,9 +93,9 @@ matrix resize_matrix(matrix mat, int dstH, int dstW)
   matrix r_mat;
   r_mat.height = dstH;
   r_mat.width = dstW;
-  r_mat.List = malloc(sizeof(double)*r_mat.height);
-  for(int i = 0; i < r_mat.height; i++)
-    r_mat.List[i] = malloc(sizeof(double)*r_mat.width);    
+  r_mat.List = malloc(sizeof(double)*mat.height);
+  for(int i = 0; i < mat.height; i++)
+    r_mat.List[i] = malloc(sizeof(double)*mat.width);    
   
   guchar *r = malloc(sizeof(guchar)),
     *g = malloc(sizeof(guchar)),
@@ -111,9 +111,8 @@ matrix resize_matrix(matrix mat, int dstH, int dstW)
 	else
 	  r_mat.List[i][j] = 0;
       }
-  
-  g_object_unref(r_pixbuf);
-  //g_object_unref(pixbuf);
+  //gdk_pixbuf_unref(r_pixbuf);
+  gdk_pixbuf_unref(pixbuf);
   
   for(int i = 0; i < mat.height; i++)
     free(mat.List[i]);

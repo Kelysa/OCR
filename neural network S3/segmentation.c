@@ -407,7 +407,7 @@ matrix build_matrix_im (SDL_Surface *surface)
     {
     for(int i = 0; i < surface->w; i++)
       {
-      SDL_GetRGB(getpixel(surface,i+1,j),
+      SDL_GetRGB(getpixel(surface,i,j),
 		  surface->format, &r, &g, &b);
       if ((r&&g&&b) == 0)
         {

@@ -33,9 +33,9 @@ struct network
 };
 int verifline(matrix letter);
 void matricefile (double** matrice, int col, int line,FILE* fichier);
-double** filetomatrice(int line, int col, int delta);
-void savealltofile(matrix* matrice, int nbelement);
-matrix* alltomatrice(int nbelement);
+double** filetomatrice(int line, int col, int delta, char* path);
+void savealltofile(matrix* matrice, int nbelement, char* path);
+matrix* alltomatrice(int nbelement, char* path);
 int findindex (network* net,int L[]);
 matrix* makeLW(int L[], int size);
 double** matw(int height, int width);

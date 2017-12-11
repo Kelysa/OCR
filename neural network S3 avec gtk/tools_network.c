@@ -113,26 +113,26 @@ void putEnter(matrix* layer, double* enter)
 }
 
 
-void savealltofile(matrix* l, int nbelement)
+void savealltofile(matrix* l, int nbelement, char* path)
 { 
-  FILE* fichier = fopen("poid.txt", "w+");
+  FILE* fichier = fopen(path, "w+");
   for(int i =0; i < nbelement ; i++)
   {
     matricefile(l[i].List,l[i].height ,l[i].width,fichier);
   } 
   fclose(fichier); 
 }
-matrix* alltomatrice(int nbelement)
+matrix* alltomatrice(int nbelement, char* path)
 { 
   matrix* recup = malloc(2 * sizeof(matrix));
-  recup[0].List = filetomatrice(750,200,0);
+  recup[0].List = filetomatrice(750,300,0, path);
   recup[0].height = 750;
-  recup[0].width = 200;
+  recup[0].width = 300;
   for(int i =1; i < nbelement ; i++)
   {
-    recup[i].List = filetomatrice(200,52
-    ,200*52);
-    recup[i].height = 200;
+    recup[i].List = filetomatrice(300,52 // j ai un doute sur le alpha, je pense plus a 750*300
+    ,750*300, path);
+    recup[i].height = 300;
     recup[i].width = 52;
     
   }
@@ -166,15 +166,15 @@ char* gline(FILE* f)
 }
 
 
-double** filetomatrice(int height, int width,int delta)  
+double** filetomatrice(int height, int width,int delta,char* path)  
  {
     
     double** l  = malloc((height) * sizeof(double*));
     for(int i =0; i< height ; i++)
       {
-	l[i] = malloc(sizeof(double) * width); 
+	      l[i] = malloc(sizeof(double) * width); 
       }
-    FILE *fichier =fopen("poid.txt", "r");
+    FILE *fichier =fopen(path, "r");
     int i =0;
     int j =0;
     int x = 1;
@@ -183,21 +183,21 @@ double** filetomatrice(int height, int width,int delta)
     while (delta--)
       {
         line = gline(fichier);
-	sscanf(line,"%lf",&value);
+	      sscanf(line,"%lf",&value);
       }
     while (x <= height*width)
       {
-	line = gline(fichier);
-	sscanf(line,"%lf",&value);
-	if (j == width)
-	  {
-	    j=0;
-	    i++;
-	  }
-	//printf("%d",i);
-	l[i][j] = value;
-	j++;
-	x++;
+	    line = gline(fichier);
+	    sscanf(line,"%lf",&value);
+	    if (j == width)
+	      {
+	        j=0;
+	        i++;
+	      }
+	    //printf("%d",i);
+	    l[i][j] = value;
+	    j++;
+	    x++;
 	
       }
     fclose(fichier);

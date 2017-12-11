@@ -8,6 +8,7 @@
 
 # include "tools_network.h"
 # include "function.h"
+# include "resize.h"
 
 static inline
 Uint8* pixelref(SDL_Surface *surf, unsigned x, unsigned y) {
@@ -282,8 +283,6 @@ matrix* build_matrix (SDL_Surface *surface,int* line,int* colum , int* nbimage)
   matrix* lw = NULL;
   lw = malloc(1024 * sizeof(matrix));
   Uint8 r = 0, g = 0, b = 0;
-  printf("\n");
-  printf("{");
   int x = *(colum);
   int compteur = 0;
   double** list;
@@ -303,27 +302,22 @@ matrix* build_matrix (SDL_Surface *surface,int* line,int* colum , int* nbimage)
           if ((r&&g&&b) == 0)
             {
 	      list[a][c] = 1.0;
-  	      printf("1");
   	    }
           else
             {
 	      list[a][c] = 0.0;
-	      printf("0");
             }
 	  c+=1;
         }
       a ++;
       c = 0;
-      printf("\n");
       }
     *nbimage +=1;
     lw[compteur].width = *(colum+1)-*(colum); 
     lw[compteur].height = *(line+1)-*(line);
     lw[compteur].List = list;
+    lw[compteur] = resize_matrix(lw[compteur], 30 , 25);
     compteur++;
-    printf("}");
-    printf("\n");
-    printf("\n");
     colum +=2;
     if (x > *(colum))
      {

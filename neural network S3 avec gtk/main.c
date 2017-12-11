@@ -40,19 +40,20 @@ int main(int argc, char *path[])
   if (argc==2)
     {
       int size = 3;
-      int L[] = {750 ,200 , 52};
+      int L[] = {750 ,300 , 52};
       network* net = make_network(size, L);
-      net-> lw = alltomatrice(2);
-      print_matrix(net->lw[0].List,net->lw[0].height,net->lw[0].width);
+      net-> lw = alltomatrice(2, "poid.txt");
+      //print_matrix(net->lw[0].List,net->lw[0].height,net->lw[0].width);
       int nbimage = 0;
       matrix * texte = give_matrix(path[1],&nbimage);
       for(int i =0; i<nbimage;i++)
-	{  
+	    {  
   	   if (verifline(texte[i]))
-		{
+		    {
 	           printf("\n");
-		   continue;
-		}
+		    continue;
+        }
+           print_matrixx(texte[i].List, texte[i].height, texte[i].width);
            double* a = matToList(texte[i]);
            putEnter(net->layer, a);
            forward(net->size,net->lw, net->layer, net->biais, net->lz);
@@ -83,24 +84,24 @@ int main(int argc, char *path[])
     srand(time(NULL));
     int size = 3;
 
-    int L[] = {750 ,200 , 52};
+    int L[] = {750 ,300 , 52};
     network* net = make_network(size, L);
 
   
   //############################################### 
     int s= 0;
     //int nb = 1;
-    while(s < 80)
+    while(s < 58)
     {
       s= training(net,list_tuple, L,taille);
       printf("reussite : %d \n",s);
       /*if(nb%5 == 0)
 	    {
-	      savealltofile(net->lw,2);
+	      savealltofile(net->lw,2,"poid.txt");
 	    }
       nb++;*/
     }
-    savealltofile(net->lw,2);
+    savealltofile(net->lw,2,"poid.txt");
   }
   return 0;
 }

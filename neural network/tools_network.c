@@ -139,21 +139,6 @@ matrix* alltomatrice(int nbelement, char* path)
   return recup;
 }
 
-matrix* alltomatriceb(char* path)
-{ 
-  matrix* recup = malloc(3 * sizeof(matrix));
-  recup[0].List = filetomatrice(1,750,0, path);
-  recup[0].height = 1;
-  recup[0].width = 750;
-  recup[1].List = filetomatrice(1,300,750, path);
-  recup[1].height = 1;
-  recup[1].width = 300;
-  recup[2].List = filetomatrice(1,52,750+300, path);
-  recup[2].height = 1;
-  recup[2].width = 52;
-  return recup;
-}
-
 
 void matricefile (double** matrice, int height, int width, FILE* fichier)
 {

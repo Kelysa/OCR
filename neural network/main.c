@@ -43,7 +43,6 @@ int main(int argc, char *path[])
       int L[] = {750 ,300 , 52};
       network* net = make_network(size, L);
       net-> lw = alltomatrice(2, "poid.txt");
-      net-> biais = alltomatriceb("biais.txt");
       //print_matrix(net->lw[0].List,net->lw[0].height,net->lw[0].width);
       int nbimage = 0;
       matrix * texte = give_matrix(path[1],&nbimage);
@@ -75,7 +74,7 @@ int main(int argc, char *path[])
     {
       printf("%c\n",list_tuple[i].inputsChar);
       matrix l = resize_matrix(list_tuple[i].mat, 30 ,25);
-      l = removewhite(l);
+      //l = removewhite(l);
       l = resize_matrix(l, 30 ,25);
       list_tuple[i].mat = l;
       print_matrixx(list_tuple[i].mat.List, list_tuple[i].mat.height, list_tuple[i].mat.width);
@@ -92,7 +91,7 @@ int main(int argc, char *path[])
   //############################################### 
     int s= 0;
     //int nb = 1;
-    while(s < 20)
+    while(s < 58)
     {
       s= training(net,list_tuple, L,taille);
       printf("reussite : %d \n",s);
@@ -103,7 +102,6 @@ int main(int argc, char *path[])
       nb++;*/
     }
     savealltofile(net->lw,2,"poid.txt");
-    savealltofile(net->biais,3,"biais.txt");
   }
   return 0;
 }

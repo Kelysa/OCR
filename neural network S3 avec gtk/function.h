@@ -49,8 +49,5 @@ network* make_network(int size , int L[]);
 
 double errtaux(matrix* error, int size);
 
-matrix* randmatrix(int size , int L[], matrix* biais);
-
-
 #endif /* _SOMEfunction_function_H_ */
  

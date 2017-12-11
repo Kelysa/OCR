@@ -73,19 +73,12 @@ int main(int argc, char *path[])
     {
       printf("%c\n",list_tuple[i].inputsChar);
       matrix l = resize_matrix(list_tuple[i].mat, 30 ,25);
-      //l = removewhite(l);
-      //l = resize_matrix(l, 30 ,25);
-      //list_tuple[i].mat = l;
-      print_matrixx(l.List, l.height, l.width);
+      l = removewhite(l);
+      l = resize_matrix(l, 30 ,25);
+      list_tuple[i].mat = l;
+      print_matrixx(list_tuple[i].mat.List, list_tuple[i].mat.height, list_tuple[i].mat.width);
       printf("\n");
     }
-    /*printf("%c\n",list_tuple[12].inputsChar);  // cahnge le numero pour essayer avec des lettre differente
-    matrix mm = list_tuple[12].mat;                  // ici aussi
-    print_matrixx(mm.List, mm.height, mm.width);
-    mm = resize_matrix(mm, 30, 25);
-    printf("\n");
-    print_matrixx(mm.List, mm.height, mm.width);*/
-    
   
     srand(time(NULL));
     int size = 3;
@@ -97,7 +90,7 @@ int main(int argc, char *path[])
   //############################################### 
     int s= 0;
     //int nb = 1;
-    while(s < 60)
+    while(s < 80)
     {
       s= training(net,list_tuple, L,taille);
       printf("reussite : %d \n",s);

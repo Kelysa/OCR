@@ -52,5 +52,6 @@ int firstcolum(matrix image);
 int endcolum(matrix image);
 int firstline(matrix image);
 int endline(matrix image);
+matrix* randmatrix(int size , int L[], matrix* biais);
 
 #endif /* _TOOLSNET_H_ */

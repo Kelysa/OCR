@@ -121,14 +121,3 @@ double errtaux(matrix* error, int size)
   return res / (double)(i);
 }
 
-matrix* randmatrix(int size , int L[], matrix* biais)
-{
-  for(int i = 0; i < size; i++)
-  {
-    for(int j = 0; j < L[i]; j++)
-    {
-      biais[i].List[0][j] = ((double)rand() /(double)RAND_MAX)* 40 - 20;
-    }
-  }
-  return biais;
-}

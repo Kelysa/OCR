@@ -94,7 +94,7 @@ int main(int argc, char *path[])
   
   //############################################### 
     int s= 0;
-    while(s < 2)
+    while(s < 60)
     {
       s= training(net,list_tuple, L,taille);
       printf("reussite : %d \n",s);

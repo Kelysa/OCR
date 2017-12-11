@@ -45,6 +45,8 @@ void putEnter(matrix* layer, double* enter);
 void copy(double** layer , double** lz , int height , int width);
 void serialisation ( char *file, int L[], matrix* lw, int size);
 
+matrix* alltomatriceb(char* path);
+
 int random_index(int nb);
 int IsEmpty(char * nom_fichier);
 matrix removewhite(matrix image);

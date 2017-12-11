@@ -25,7 +25,7 @@ void call_black_and_white_fonction()
 }
 void NeuralNet()
 {
-    system("./all a.png p e e");
+    system("./all 1000 p e e");
 }
 void Seg()
 {

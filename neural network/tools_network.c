@@ -236,11 +236,11 @@ int findindex (network* net,int L[])
 
 int verifline(matrix letter)
 {
-   for(int i = 0; i < (letter.height) ; i++)
+   for(int i = 0; i < (letter.height)-1 ; i++)
     {
-    for(int j = 0; j < (letter.width); j++)
+    for(int j = 0; j < (letter.width)-1; j++)
 	{
-	   if (letter.List[i][j] ==1)
+	   if (letter.List[i][j] ==0)
 		return 0;
 	}
     }

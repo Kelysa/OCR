@@ -1,1 +1,0 @@
-all.o: all.c

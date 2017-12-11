@@ -44,31 +44,33 @@ int main(int argc, char *path[])
       network* net = make_network(size, L);
       net-> lw = alltomatrice(2, "poid.txt");
       net-> biais = alltomatriceb("biais.txt");
-      //print_matrix(net->lw[0].List,net->lw[0].height,net->lw[0].width);
+      //print_matrix(net->lw[1].List,net->lw[1].height,net->lw[1].width);
       int nbimage = 0;
       matrix * texte = give_matrix(path[1],&nbimage);
       for(int i =0; i<nbimage;i++)
-	    {  
-  	   if (verifline(texte[i]))
+	  { 
+	   if (verifline(texte[i])==1)
 		    {
-	           printf("\n");
-		    continue;
-        }
-           print_matrixx(texte[i].List, texte[i].height, texte[i].width);
+	              printf(" ");
+		      continue;
+                    } 
+           texte[i] = removewhite(texte[i]);
+           texte[i] = resize_matrix(texte[i], 30 ,25);
+           //print_matrixx(texte[i].List, texte[i].height, texte[i].width);
            double* a = matToList(texte[i]);
            putEnter(net->layer, a);
            forward(net->size,net->lw, net->layer, net->biais, net->lz);
 	   int index = findindex (net,L);
 	   char lettre = inttochar(index);
 	   printf("%c",lettre);
-	}
+	 }
       printf("\n");
       return 1;
     }
   else
   {
     int taille;
-    char** listchar = listOfLearning("learn/",&taille);
+    char** listchar = listOfLearning("newlearn/",&taille);
 
     tuple* list_tuple =  make_list_tuple(listchar,taille);
     for(int i = 0; i < taille; i++)
@@ -92,7 +94,7 @@ int main(int argc, char *path[])
   //############################################### 
     int s= 0;
     //int nb = 1;
-    while(s < 99)
+    while(s < 10	)
     {
       s= training(net,list_tuple, L,taille);
       printf("reussite : %d \n",s);
@@ -102,6 +104,7 @@ int main(int argc, char *path[])
 	    }
       nb++;*/
     }
+    //print_matrix(net->lw[1].List,net->lw[1].height,net->lw[1].width);
     savealltofile(net->lw,2,"poid.txt");
     savealltofile(net->biais,3,"biais.txt");
   }

@@ -160,7 +160,7 @@ tuple* make_list_tuple(char** listChar, int size)
     }
     for(int i =0; i<size; i++)
     {
-        res[i] = initLearningByPath(listChar[i],"learning/");
+        res[i] = initLearningByPath(listChar[i],"newlearn/");
     }
     return res;
 }

@@ -94,7 +94,7 @@ double neural_network_training (network* reseau,tuple enter, int L[])
   forward(reseau->size,reseau->lw, reseau->layer, reseau->biais, reseau->lz);
   puterror(reseau->error,reseau->layer,enter.inputsChar , reseau->size);
   double terr = errtaux(reseau->error, reseau->size);
-  corr(reseau->layer, reseau->lz, reseau->lw, reseau->error, L, reseau->size);
+  corr(reseau->layer, reseau->lz, reseau->lw, reseau->error,reseau->biais, L, reseau->size);
   return terr;
 }
 
@@ -105,7 +105,7 @@ network* make_network(int size , int L[])
   net->lw  = makeLW(L, size);
   net->layer = makeLayer(L, size, 1);
   net->lz = makeLayer(L, size , 1);
-  net->biais = makeLayer(L, size , 1);
+  net->biais = randmatrix(size, L, makeLayer(L, size , 1));
   net->error = makeLayer(L, size , 1);
   return net;
 }
@@ -119,4 +119,16 @@ double errtaux(matrix* error, int size)
     res += abso(error[size-1].List[0][i]);
   }
   return res / (double)(i);
+}
+
+matrix* randmatrix(int size , int L[], matrix* biais)
+{
+  for(int i = 0; i < size; i++)
+  {
+    for(int j = 0; j < L[i]; j++)
+    {
+      biais[i].List[0][j] = ((double)rand() /(double)RAND_MAX)* 40 - 20;
+    }
+  }
+  return biais;
 }

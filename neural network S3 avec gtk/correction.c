@@ -13,7 +13,7 @@ double deriver_sigmoid(double x)
     return sigmoid(x) * (1 - sigmoid(x));
 }
 
-void corr(matrix* layer,matrix* lz, matrix* lw,matrix* error,int L[],int size)
+void corr(matrix* layer,matrix* lz, matrix* lw,matrix* error,matrix* biais,int L[],int size)
 {
     int l = lz[0].width;
     double deriv;
@@ -31,6 +31,7 @@ void corr(matrix* layer,matrix* lz, matrix* lw,matrix* error,int L[],int size)
                 }
                 deriv = deriver_sigmoid(lz[size-2-i].List[0][x]);
                 error[size-2-i].List[0][x]=deriv*s;
+                biais[size-2-i].List[0][x] -= error[size-2-i].List[0][x];
                 
                 
             }

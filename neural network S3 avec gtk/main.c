@@ -21,9 +21,11 @@ int training(network* net,tuple* enter,int L[], int nbexemple)
 {
   double s= 0;
   double val_abs;
+  int r;
   for(int i = 0; i < nbexemple; i++)
   {
-    val_abs = neural_network_training(net, enter[i] ,L);
+    r = random_index(nbexemple-1);
+    val_abs = neural_network_training(net, enter[r] ,L);
     if(val_abs< 0.005 )
     {
         s+=1;
@@ -64,14 +66,11 @@ int main(int argc, char *path[])
   else
   {
     int taille;
-    char** listchar = listOfLearning("learning/",&taille);
+    char** listchar = listOfLearning("newlearn/",&taille);
 
     tuple* list_tuple =  make_list_tuple(listchar,taille);
     for(int i = 0; i < taille; i++)
     {
-      int* b = charTobin(list_tuple[i].inputsChar);
-      for(int j = 0; j< 8; j++)
-        printf("%d",b[j]);
       printf("%c\n",list_tuple[i].inputsChar);
       matrix l = resize_matrix(list_tuple[i].mat, 30 ,25);
       print_matrixx(l.List, l.height, l.width);
@@ -94,10 +93,16 @@ int main(int argc, char *path[])
   
   //############################################### 
     int s= 0;
+    //int nb = 1;
     while(s < 60)
     {
       s= training(net,list_tuple, L,taille);
       printf("reussite : %d \n",s);
+      /*if(nb%5 == 0)
+	    {
+	      savealltofile(net->lw,2);
+	    }
+      nb++;*/
     }
     savealltofile(net->lw,2);
   }

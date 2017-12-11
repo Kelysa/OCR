@@ -42,8 +42,8 @@ int main(int argc, char *path[])
       int size = 3;
       int L[] = {750 ,300 , 52};
       network* net = make_network(size, L);
-      net-> lw = alltomatrice(2, "poid.txt");
-      net-> biais = alltomatriceb("biais.txt");
+     // net-> lw = alltomatrice(2, "poid.txt");
+      //net-> biais = alltomatriceb("biais.txt");
       //print_matrix(net->lw[1].List,net->lw[1].height,net->lw[1].width);
       int nbimage = 0;
       matrix * texte = give_matrix(path[1],&nbimage);

@@ -249,3 +249,96 @@ int IsEmpty(char * nom_fichier)
      }
      return 0;
 }
+matrix removewhite(matrix image)
+{
+  //printf("%d ligne de l'image = ",image.height);
+  //printf("\n");
+  //printf("%d colone de l'image =",image.width);
+  //printf("\n");
+  int minline = firstline(image);
+  //printf("%d minline",minline);
+  //printf("\n");
+  int maxline = endline(image);
+  //printf("%d maxline",maxline);
+  //printf("\n");
+  int maxcolum = endcolum(image);
+  //printf("%d maxcolum",maxcolum);
+  //printf("\n");
+  int mincolum = firstcolum(image);
+  //printf("%d mincolum",mincolum);
+  //printf("\n");
+  double** l  = matw((maxline-minline), (maxcolum-mincolum));
+  int a = 0;
+  int b = 0;
+  for (int i = minline; i < maxline; i++)
+  {
+    for (int j = mincolum; j < maxcolum; j++)
+    {
+	l[a][b]=image.List[i][j];
+	b++;
+    }
+    a++;
+    b = 0;
+  }
+  image.List=l;
+  image.height=(maxline-minline);
+  image.width=(maxcolum-mincolum);
+  return image;
+}
+int firstcolum(matrix image)
+{
+  for (int i = 0; i < (image.height)-1; i++)
+  {
+    for (int j = 0; j < (image.width)-1; j++)
+    {
+	if(image.List[j][i]==1)
+	  return i;
+    }
+  }
+  return 0;
+}
+
+int endcolum(matrix image)
+{
+  int x = firstcolum(image);
+  for (int i = (image.width)-1; i >=x; i--)
+  {
+    for (int j = (image.height)-1; j >0; j--)
+    {
+	if (image.List[j][i]==1)
+      	{
+	   return i;
+      	}
+    }
+  }
+  return (image.width)-1;
+}
+
+int firstline(matrix image)
+{
+ for (int j = 0; j < (image.height)-1; j++)
+  {
+    for (int i = 0; i < (image.width)-1; i++)
+    {
+      if (image.List[j][i]==1)
+      {
+	return j;
+      }
+    }
+  }
+  return (image.height);
+}
+int endline(matrix image)
+{
+  for (int j = (image.height)-1; j >= 0; j--)
+  {
+    for (int i = 0; i < image.width; i++)
+    {
+      if (image.List[j][i]==1)
+      {
+	return j+1;
+      }
+    }
+  }
+  return (image.height)-1;
+}

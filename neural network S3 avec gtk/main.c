@@ -73,6 +73,9 @@ int main(int argc, char *path[])
     {
       printf("%c\n",list_tuple[i].inputsChar);
       matrix l = resize_matrix(list_tuple[i].mat, 30 ,25);
+      //l = removewhite(l);
+      //l = resize_matrix(l, 30 ,25);
+      //list_tuple[i].mat = l;
       print_matrixx(l.List, l.height, l.width);
       printf("\n");
     }

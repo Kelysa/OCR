@@ -47,5 +47,10 @@ void serialisation ( char *file, int L[], matrix* lw, int size);
 
 int random_index(int nb);
 int IsEmpty(char * nom_fichier);
+matrix removewhite(matrix image);
+int firstcolum(matrix image);
+int endcolum(matrix image);
+int firstline(matrix image);
+int endline(matrix image);
 
 #endif /* _TOOLSNET_H_ */

@@ -28,7 +28,7 @@ int preprocessing(char *path[])
 int neural_network(char *path[])
 {
     int ret;
-    char path_fi[] = "neural?network/main ";
+    char path_fi[] = "neuralnetwork/main ";
     strcat(path_fi,path[1]);
     ret=system(path_fi);
     return ret;

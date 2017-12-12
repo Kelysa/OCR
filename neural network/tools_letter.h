@@ -21,6 +21,4 @@ tuple* make_list_tuple(char** listChar, int size);
 double* reductMatrix(double* myMatrix);
 double* matToList(matrix mat);
 
-tuple* initLearningByPath2(char* myPath, int* nb);
-
 #endif //_TOOL_LETTER_H_

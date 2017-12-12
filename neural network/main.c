@@ -20,13 +20,18 @@
 int training(network* net,tuple* enter,int L[], int nbexemple)
 {
   double s= 0;
+  double val_abs;
   int r;
-  for(int i = 0; i < 100; i++)
+  for(int i = 0; i < nbexemple; i++)
   {
     r = random_index(nbexemple-1);
-    s += neural_network_training(net, enter[r] ,L);
+    val_abs = neural_network_training(net, enter[r] ,L);
+    if(val_abs< 0.005 )
+    {
+        s+=1;
+    } 
   }
-  return s ;
+  return s/((double)(nbexemple))*100 ;
 }
 
 
@@ -37,66 +42,35 @@ int main(int argc, char *path[])
       int size = 3;
       int L[] = {750 ,300 , 52};
       network* net = make_network(size, L);
-      net-> lw = alltomatrice(2, "poid.txt");
-      net-> biais = alltomatriceb("biais.txt");
-      //print_matrix(net->lw[0].List,net->lw[0].height,net->lw[0].width);
-      /*int nbimage = 0;
+     // net-> lw = alltomatrice(2, "poid.txt");
+      //net-> biais = alltomatriceb("biais.txt");
+      //print_matrix(net->lw[1].List,net->lw[1].height,net->lw[1].width);
+      int nbimage = 0;
       matrix * texte = give_matrix(path[1],&nbimage);
       for(int i =0; i<nbimage;i++)
-	    {  
-  	   if (verifline(texte[i]))
+	  { 
+	   if (verifline(texte[i])==1)
 		    {
-	           printf("\n");
-		    continue;
-        }
-           print_matrixx(texte[i].List, texte[i].height, texte[i].width);
+	              printf(" ");
+		      continue;
+                    } 
+           texte[i] = removewhite(texte[i]);
+           texte[i] = resize_matrix(texte[i], 30 ,25);
+           //print_matrixx(texte[i].List, texte[i].height, texte[i].width);
            double* a = matToList(texte[i]);
            putEnter(net->layer, a);
            forward(net->size,net->lw, net->layer, net->biais, net->lz);
-           print_matrix(net->layer[size-1].List, net->layer[size-1].height , net->layer[size-1].width);
-	        int index = findindex (net,L);
-	        char lettre = inttochar(index);
-	        printf("%c",lettre);
-        }*//*
-          int nb = 0;
-        tuple* list_tuple = initLearningByPath2(path[1], &nb);
-        for(int i = 0; i < nb; i++)
-        {
-          matrix l = resize_matrix(list_tuple[i].mat, 30 ,25);
-          l = removewhite(l);
-          l = resize_matrix(l, 30 ,25);
-          list_tuple[i].mat = l;
-          print_matrixx(list_tuple[i].mat.List, list_tuple[i].mat.height, list_tuple[i].mat.width);
-          printf("\n");
-        }
-
-        for(int i = 0; i< nb; i++)
-        {
-          tuple le = list_tuple[i];
-          putEnter(net->layer, le.list);
-          print_matrixx(le.mat.List, le.mat.height, le.mat.width);
-          forward(net->size,net->lw, net->layer, net->biais, net->lz);
-	        int index = findindex (net,L);
-          char lettre = inttochar(index);
-          printf("%c", lettre);
-        }*/
-
-
-
-      tuple le = initLearningByPath(path[1],"");
-      putEnter(net->layer, le.list);
-      print_matrixx(le.mat.List, le.mat.height, le.mat.width);
-      forward(net->size,net->lw, net->layer, net->biais, net->lz);
-	    int index = findindex (net,L);
-	    char lettre = inttochar(index);
-	    printf("ocr : %c\n",lettre);
+	   int index = findindex (net,L);
+	   char lettre = inttochar(index);
+	   printf("%c",lettre);
+	 }
       printf("\n");
       return 1;
     }
   else
   {
     int taille;
-    char** listchar = listOfLearning("learn/",&taille);
+    char** listchar = listOfLearning("newlearn/",&taille);
 
     tuple* list_tuple =  make_list_tuple(listchar,taille);
     for(int i = 0; i < taille; i++)
@@ -106,7 +80,8 @@ int main(int argc, char *path[])
       l = removewhite(l);
       l = resize_matrix(l, 30 ,25);
       list_tuple[i].mat = l;
-      print_matrixx(list_tuple[i].mat.List, list_tuple[i].mat.height, list_tuple[i].mat.width);
+      print_matrixx(list_tuple[i].mat.List, list_tuple[i].mat.height, 
+      list_tuple[i].mat.width);
       printf("\n");
     }
   
@@ -120,23 +95,17 @@ int main(int argc, char *path[])
   //############################################### 
     int s= 0;
     //int nb = 1;
-    while(s < 100)
+    while(s < 10)
     {
       s= training(net,list_tuple, L,taille);
       printf("reussite : %d \n",s);
+      /*if(nb%5 == 0)
+	    {
+	      savealltofile(net->lw,2,"poid.txt");
+	    }
+      nb++;*/
     }
-
-    for(int j=0; j< 20; j++)
-    {
-      putEnter(net->layer, list_tuple[j].list);
-      print_matrixx(list_tuple[j].mat.List, list_tuple[j].mat.height, list_tuple[j].mat.width);
-      printf("rep : %c -> ",list_tuple[j].inputsChar);
-      forward(net->size,net->lw, net->layer, net->biais, net->lz);
-	    int index = findindex (net,L);
-	    char lettre = inttochar(index);
-	    printf("ocr : %c\n",lettre);
-    }
-
+    //print_matrix(net->lw[1].List,net->lw[1].height,net->lw[1].width);
     savealltofile(net->lw,2,"poid.txt");
     savealltofile(net->biais,3,"biais.txt");
   }

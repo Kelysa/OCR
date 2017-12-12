@@ -47,7 +47,7 @@ double neural_network_training (network* reseau,tuple enter, int L[]);
 
 network* make_network(int size , int L[]);
 
-double errtaux2(network * net, char letter, int L[]);
+double errtaux(matrix* error, int size);
 
 #endif /* _SOMEfunction_function_H_ */
  

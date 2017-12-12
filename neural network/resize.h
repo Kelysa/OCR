@@ -13,9 +13,11 @@ typedef struct matrix matrix;
 typedef struct network network;
 
 
-gboolean get_colors_by_coordinates(GdkPixbuf *pixbuf, gint x, gint y, guchar *red, guchar *green, guchar *blue);
+gboolean get_colors_by_coordinates(GdkPixbuf *pixbuf, gint x,
+ gint y, guchar *red, guchar *green, guchar *blue);
 
-gboolean set_colors_by_coordinates(GdkPixbuf *pixbuf, gint x, gint y, guchar red, guchar green, guchar blue);
+gboolean set_colors_by_coordinates(GdkPixbuf *pixbuf, gint x,
+ gint y, guchar red, guchar green, guchar blue);
 
 
 matrix resize_matrix(matrix mat, int dstH, int dstW);

@@ -94,7 +94,8 @@ double neural_network_training (network* reseau,tuple enter, int L[])
   forward(reseau->size,reseau->lw, reseau->layer, reseau->biais, reseau->lz);
   puterror(reseau->error,reseau->layer,enter.inputsChar , reseau->size);
   double terr = errtaux(reseau->error, reseau->size);
-  corr(reseau->layer, reseau->lz, reseau->lw, reseau->error,reseau->biais, L, reseau->size);
+  corr(reseau->layer, reseau->lz, reseau->lw, reseau->error,
+  reseau->biais, L, reseau->size);
   return terr;
 }
 

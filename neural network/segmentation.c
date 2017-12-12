@@ -278,7 +278,8 @@ int* cutcolum(SDL_Surface *surface,int* begin)
 
 }
 
-matrix* build_matrix (SDL_Surface *surface,int* line,int* colum , int* nbimage)
+matrix* build_matrix (SDL_Surface *surface,int* line,int* colum ,
+ int* nbimage)
 {
   matrix* lw = NULL;
   lw = malloc(1024 * sizeof(matrix));

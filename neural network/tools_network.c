@@ -77,8 +77,7 @@ matrix* makeLayer(int L[], int size, int nb)
     return layer;
 }
 
-void forward( int sizeL, matrix* lw, matrix* layer,
- matrix* biais, matrix* lz)
+void forward( int sizeL, matrix* lw, matrix* layer, matrix* biais, matrix* lz)
 {
   double** l;
   double** l1;
@@ -87,7 +86,7 @@ void forward( int sizeL, matrix* lw, matrix* layer,
     l = layer[i].List;
     l1 = layer[i+1].List;
     mul(l, lw[i].List, layer[i].height, lw[i].height, lw[i].width, l1);
-    add(l1, biais[i+1].List, layer[i+1].height, layer[i+1].width );
+    add(l1, biais[i+1].List, layer[i+1].height, layer[i+1].width ); // a revoir
     copy(l1, lz[i+1].List ,layer[i+1].height, layer[i+1].width);
     vector_apply(sigmoid, l1, layer[i+1].height, layer[i+1].width,l1);
     
@@ -131,7 +130,7 @@ matrix* alltomatrice(int nbelement, char* path)
   recup[0].width = 300;
   for(int i =1; i < nbelement ; i++)
   {
-    recup[i].List = filetomatrice(300,52 
+    recup[i].List = filetomatrice(300,52 // j ai un doute sur le alpha, je pense plus a 750*300
     ,750*300, path);
     recup[i].height = 300;
     recup[i].width = 52;
@@ -228,20 +227,21 @@ int findindex (network* net,int L[])
   for(int i = 0; i<L[(net->size)-1];i++)
    {
       if (mat.List[0][index] < mat.List[0][i])
-	{
+	  {
  	   index = i;
-	}
-   }
+  	}
+  }
+  //printf("[%d , %f]",index,mat.List[0][index] );
   return index;
 }
 
 int verifline(matrix letter)
 {
-   for(int i = 0; i < (letter.height)-1 ; i++)
+   for(int i = 0; i < (letter.height) ; i++)
     {
-    for(int j = 0; j < (letter.width)-1; j++)
+    for(int j = 0; j < (letter.width); j++)
 	{
-	   if (letter.List[i][j] ==0)
+	   if (letter.List[i][j] ==1)
 		return 0;
 	}
     }

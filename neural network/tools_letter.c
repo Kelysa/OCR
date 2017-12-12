@@ -27,7 +27,7 @@ int neuroneactif(char letter)
     }
     if(n > 96 && n < 123)
     {
-        return n-97+25;
+        return n-97+26;
     }
     return -1;
 }
@@ -39,7 +39,7 @@ char inttochar(int n)
     }
     else 
     {
-        n+=97-25;
+        n+=97-26;
     }
     return (char)(n);
 }
@@ -111,7 +111,7 @@ char** listOfLearning(char* dirName, int *sizeOfList){
             if((listOfName[mySize] = malloc(sizeof(ep->d_name))) == NULL){
                 exit(0);
             }
-            for(unsigned int j = 0;j<sizeof(ep->d_name)/sizeof(char); j++){
+            for(unsigned int j = 0; j < sizeof(ep->d_name) / sizeof(char); j++){
                 listOfName[mySize][j] = (ep->d_name)[j];
             }
             mySize++;
@@ -146,10 +146,21 @@ tuple initLearningByPath(char* myPath, char* dir){
     tuple learning;
     learning.inputsChar = myPath[0];
     //learning.mat =  give_matrix_im(concatenateString(dir, myPath));
-    learning.mat=resize_matrix(give_matrix_im(concatenateString(dir,
-    myPath)),30,25);
+    learning.mat =  resize_matrix(give_matrix_im(concatenateString(dir, myPath)), 30,25);
     learning.list = matToList( learning.mat);
     return learning;
+}
+
+tuple* initLearningByPath2(char* myPath, int* nb){
+    matrix * m = give_matrix(myPath ,nb );
+    tuple* l = malloc(sizeof(tuple) * *(nb));
+    for(int i = 0; i < *(nb); i++)
+    {
+        l[i].mat= resize_matrix(m[i], 30, 25);
+
+        l[i].list = matToList(l[i].mat);
+    }
+    return l;
 }
 
 tuple* make_list_tuple(char** listChar, int size)
@@ -161,7 +172,7 @@ tuple* make_list_tuple(char** listChar, int size)
     }
     for(int i =0; i<size; i++)
     {
-        res[i] = initLearningByPath(listChar[i],"newlearn/");
+        res[i] = initLearningByPath(listChar[i],"learn/");
     }
     return res;
 }

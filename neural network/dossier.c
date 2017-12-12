@@ -102,8 +102,7 @@ char** listOfLearning(char* dirName, int *sizeOfList){
             if((listOfName[mySize] = malloc(sizeof(ep->d_name))) == NULL){
                 exit(0);
             }
-            for(unsigned int j = 0; j < sizeof(ep->d_name)/sizeof(char);j++)
-            {
+            for(unsigned int j = 0; j < sizeof(ep->d_name) / sizeof(char); j++){
                 listOfName[mySize][j] = (ep->d_name)[j];
             }
             mySize++;
@@ -194,6 +193,7 @@ Learning initLearningByPath(char* myPath, char* dir){
     Uint8 g;
     Uint8 b;
     if(width > 25 || height > 35){
+        printf("Too tall !! : (%i, %i) but expected less than (25, 35). \nFileName : %s \n", width, height, myPath);
         free(myImg);
         exit(0);
     }

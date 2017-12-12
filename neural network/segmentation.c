@@ -278,8 +278,7 @@ int* cutcolum(SDL_Surface *surface,int* begin)
 
 }
 
-matrix* build_matrix (SDL_Surface *surface,int* line,int* colum ,
- int* nbimage)
+matrix* build_matrix (SDL_Surface *surface,int* line,int* colum , int* nbimage)
 {
   matrix* lw = NULL;
   lw = malloc(1024 * sizeof(matrix));
@@ -317,8 +316,6 @@ matrix* build_matrix (SDL_Surface *surface,int* line,int* colum ,
     lw[compteur].width = *(colum+1)-*(colum); 
     lw[compteur].height = *(line+1)-*(line);
     lw[compteur].List = list;
-    //lw[compteur] = removewhite(lw[compteur]);
-    lw[compteur] = resize_matrix(lw[compteur], 30 , 25);
     compteur++;
     colum +=2;
     if (x > *(colum))

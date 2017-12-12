@@ -53,7 +53,7 @@ void print_matrix(double** mat, size_t cols , size_t lines)
     {
       for (size_t j = 0; j < lines; j++)
         {
-          printf("%4g",mat[i][j]);
+          printf("%4g|",mat[i][j]);
         }
       
       printf("\n");
@@ -93,9 +93,8 @@ double neural_network_training (network* reseau,tuple enter, int L[])
   putEnter(reseau->layer, enter.list);
   forward(reseau->size,reseau->lw, reseau->layer, reseau->biais, reseau->lz);
   puterror(reseau->error,reseau->layer,enter.inputsChar , reseau->size);
-  double terr = errtaux(reseau->error, reseau->size);
-  corr(reseau->layer, reseau->lz, reseau->lw, reseau->error,
-  reseau->biais, L, reseau->size);
+  double terr = errtaux2(reseau, enter.inputsChar, L);
+  corr(reseau->layer, reseau->lz, reseau->lw, reseau->error,reseau->biais, L, reseau->size);
   return terr;
 }
 
@@ -105,20 +104,20 @@ network* make_network(int size , int L[])
   net->size = size;
   net->lw  = makeLW(L, size);
   net->layer = makeLayer(L, size, 1);
-  net->lz = makeLayer(L, size , 1);
+  net->lz = makeLayer(L, size , 1);  //double val_abs;
   net->biais = randmatrix(size, L, makeLayer(L, size , 1));
   net->error = makeLayer(L, size , 1);
   return net;
 }
 
-double errtaux(matrix* error, int size)
-{
-  double res= 0;
-  int i;
-  for(i = 0; i < error[size-1].width ; i++)
-  {
-    res += abso(error[size-1].List[0][i]);
-  }
-  return res / (double)(i);
-}
 
+double errtaux2(network * net, char letter, int L[])
+{
+  int a = findindex(net, L);
+  int b = neuroneactif(letter);
+  if(a == b)
+  {
+    return 1;
+  }
+  return 0;
+}

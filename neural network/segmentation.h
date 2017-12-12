@@ -27,8 +27,7 @@ int findendletters(SDL_Surface *surface,int* begin,int posx);
 int* cutcolum(SDL_Surface *surface,int* begin);
 void wait_for_keypressed(void);
 void addcoord (SDL_Surface *surface,int* line, int*colum);
-matrix* build_matrix (SDL_Surface *surface,int* line, int*colum, 
-int* nbimage);
+matrix* build_matrix (SDL_Surface *surface,int* line, int*colum, int* nbimage);
 
 matrix* give_matrix(char* path,int* nbimage);
 matrix build_matrix_im (SDL_Surface *surface);

@@ -39,7 +39,7 @@ char inttochar(int n)
     }
     else 
     {
-        n+=97-25;
+        n+=97-26;
     }
     return (char)(n);
 }

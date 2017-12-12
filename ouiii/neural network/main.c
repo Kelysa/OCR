@@ -64,7 +64,7 @@ int main(int argc, char *path[])
   else
   {
     int taille;
-    char** listchar = listOfLearning("learn/",&taille);
+    char** listchar = listOfLearning("newlearn/",&taille);
 
     tuple* list_tuple =  make_list_tuple(listchar,taille);
     for(int i = 0; i < taille; i++)
@@ -94,10 +94,11 @@ int main(int argc, char *path[])
       printf("reussite : %d \n",s);
     }
 
-    for(int j=0; j< 10; j++)
+    for(int j=0; j< 20; j++)
     {
       printf("rep : %c -> ",list_tuple[j].inputsChar);
       putEnter(net->layer, list_tuple[j].list);
+      //print_matrixx(list_tuple[j].mat.List, list_tuple[j].mat.height, list_tuple[j].mat.width);
       forward(net->size,net->lw, net->layer, net->biais, net->lz);
 	    int index = findindex (net,L);
 	    char lettre = inttochar(index);

@@ -28,7 +28,8 @@ void print_matrixx(double **mat, int lines, int cols)
 
 }
 
-gboolean get_colors_by_coordinates(GdkPixbuf *pixbuf, gint x, gint y, guchar *red, guchar *green, guchar *blue)
+gboolean get_colors_by_coordinates(GdkPixbuf *pixbuf,
+ gint x, gint y, guchar *red, guchar *green, guchar *blue)
 {
   guchar *pixel=NULL;
   gint channel=0;
@@ -50,7 +51,8 @@ gboolean get_colors_by_coordinates(GdkPixbuf *pixbuf, gint x, gint y, guchar *re
   return TRUE;
 }
 
-gboolean set_colors_by_coordinates(GdkPixbuf *pixbuf, gint x, gint y, guchar red, guchar green, guchar blue)
+gboolean set_colors_by_coordinates(GdkPixbuf *pixbuf, gint x,
+ gint y, guchar red, guchar green, guchar blue)
 {
   guchar *pixel=NULL;
   gint channel=0;
@@ -75,7 +77,8 @@ gboolean set_colors_by_coordinates(GdkPixbuf *pixbuf, gint x, gint y, guchar red
 matrix resize_matrix(matrix mat, int dstH, int dstW)
 {
   
-  GdkPixbuf *pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, 1, 8, mat.width, mat.height);
+  GdkPixbuf *pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, 1, 8,
+   mat.width, mat.height);
   
   for(int i = 0; i < mat.height; i++)
     {
@@ -88,7 +91,8 @@ matrix resize_matrix(matrix mat, int dstH, int dstW)
 	}
     }
   
-  GdkPixbuf *r_pixbuf = gdk_pixbuf_scale_simple(pixbuf, dstW, dstH, GDK_INTERP_NEAREST);
+  GdkPixbuf *r_pixbuf = gdk_pixbuf_scale_simple(pixbuf, dstW,
+   dstH, GDK_INTERP_NEAREST);
   
   matrix r_mat;
   r_mat.height = dstH;

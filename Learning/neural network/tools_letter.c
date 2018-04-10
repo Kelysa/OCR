@@ -111,7 +111,7 @@ char** listOfLearning(char* dirName, int *sizeOfList){
             if((listOfName[mySize] = malloc(sizeof(ep->d_name))) == NULL){
                 exit(0);
             }
-            for(unsigned int j = 0; j < sizeof(ep->d_name) / sizeof(char); j++){
+            for(unsigned int j = 0;j<sizeof(ep->d_name)/sizeof(char); j++){
                 listOfName[mySize][j] = (ep->d_name)[j];
             }
             mySize++;
@@ -146,7 +146,8 @@ tuple initLearningByPath(char* myPath, char* dir){
     tuple learning;
     learning.inputsChar = myPath[0];
     //learning.mat =  give_matrix_im(concatenateString(dir, myPath));
-    learning.mat =  resize_matrix(give_matrix_im(concatenateString(dir, myPath)), 30,25);
+    learning.mat =  resize_matrix(give_matrix_im(concatenateString(dir, 
+    myPath)), 30,25);
     learning.list = matToList( learning.mat);
     return learning;
 }

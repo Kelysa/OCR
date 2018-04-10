@@ -61,7 +61,8 @@ void putpixel(SDL_Surface *surface, unsigned x, unsigned y, Uint32 pixel) {
 }SDL_Surface* display_image(SDL_Surface *img) {
   SDL_Surface          *screen;
   // Set the window to the same size as the image
-  screen = SDL_SetVideoMode(img->w, img->h, 0, SDL_SWSURFACE|SDL_ANYFORMAT);
+  screen = SDL_SetVideoMode(img->w, img->h, 0,
+   SDL_SWSURFACE|SDL_ANYFORMAT);
   if ( screen == NULL ) {
     // error management
     errx(1, "Couldn't set %dx%d video mode: %s\n",
@@ -278,7 +279,8 @@ int* cutcolum(SDL_Surface *surface,int* begin)
 
 }
 
-matrix* build_matrix (SDL_Surface *surface,int* line,int* colum , int* nbimage)
+matrix* build_matrix (SDL_Surface *surface,int* line,int* colum ,
+ int* nbimage)
 {
   matrix* lw = NULL;
   lw = malloc(1024 * sizeof(matrix));

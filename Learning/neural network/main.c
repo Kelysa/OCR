@@ -52,8 +52,10 @@ int main(int argc, char *path[])
            print_matrixx(texte[i].List, texte[i].height, texte[i].width);
            double* a = matToList(texte[i]);
            putEnter(net->layer, a);
-           forward(net->size,net->lw, net->layer, net->biais, net->lz);
-           print_matrix(net->layer[size-1].List, net->layer[size-1].height , net->layer[size-1].width);
+           forward(net->size,net->lw, net->layer, net->biais,
+            net->lz);
+           print_matrix(net->layer[size-1].List, net->layer[size-1].height ,
+            net->layer[size-1].width);
 	        int index = findindex (net,L);
 	        char lettre = inttochar(index);
 	        printf("%c",lettre);
@@ -66,7 +68,8 @@ int main(int argc, char *path[])
           l = removewhite(l);
           l = resize_matrix(l, 30 ,25);
           list_tuple[i].mat = l;
-          print_matrixx(list_tuple[i].mat.List, list_tuple[i].mat.height, list_tuple[i].mat.width);
+          print_matrixx(list_tuple[i].mat.List, list_tuple[i].mat.height,
+           list_tuple[i].mat.width);
           printf("\n");
         }
 
@@ -106,7 +109,8 @@ int main(int argc, char *path[])
       l = removewhite(l);
       l = resize_matrix(l, 30 ,25);
       list_tuple[i].mat = l;
-      print_matrixx(list_tuple[i].mat.List, list_tuple[i].mat.height, list_tuple[i].mat.width);
+      print_matrixx(list_tuple[i].mat.List, list_tuple[i].mat.height,
+       list_tuple[i].mat.width);
       printf("\n");
     }
   
@@ -129,7 +133,8 @@ int main(int argc, char *path[])
     for(int j=0; j< 20; j++)
     {
       putEnter(net->layer, list_tuple[j].list);
-      print_matrixx(list_tuple[j].mat.List, list_tuple[j].mat.height, list_tuple[j].mat.width);
+      print_matrixx(list_tuple[j].mat.List, list_tuple[j].mat.height,
+       list_tuple[j].mat.width);
       printf("rep : %c -> ",list_tuple[j].inputsChar);
       forward(net->size,net->lw, net->layer, net->biais, net->lz);
 	    int index = findindex (net,L);

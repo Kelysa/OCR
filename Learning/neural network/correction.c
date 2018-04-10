@@ -13,7 +13,8 @@ double deriver_sigmoid(double x)
     return sigmoid(x) * (1 - sigmoid(x));
 }
 
-void corr(matrix* layer,matrix* lz, matrix* lw,matrix* error,matrix* biais,int L[],int size)
+void corr(matrix* layer,matrix* lz, matrix* lw,matrix* error,
+matrix* biais,int L[],int size)
 {
     int l = lz[0].width;
     double deriv;

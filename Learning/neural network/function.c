@@ -17,7 +17,8 @@
  * applies a function to all element on a vector of size n
  * for i in 0..size, res[i] = f[vect[i]]
  */
-void vector_apply(func_t f, double** vect, int height, int width,double** res)
+void vector_apply(func_t f, double** vect, 
+int height, int width,double** res)
 {
   for(int i = 0; i < height;i++)
     {
@@ -94,7 +95,8 @@ double neural_network_training (network* reseau,tuple enter, int L[])
   forward(reseau->size,reseau->lw, reseau->layer, reseau->biais, reseau->lz);
   puterror(reseau->error,reseau->layer,enter.inputsChar , reseau->size);
   double terr = errtaux2(reseau, enter.inputsChar, L);
-  corr(reseau->layer, reseau->lz, reseau->lw, reseau->error,reseau->biais, L, reseau->size);
+  corr(reseau->layer, reseau->lz, reseau->lw, reseau->error,
+  reseau->biais, L, reseau->size);
   return terr;
 }
 

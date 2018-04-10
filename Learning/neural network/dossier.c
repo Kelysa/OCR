@@ -46,7 +46,8 @@ SDL_Surface* load_image(char *path) {
 SDL_Surface* display_image(SDL_Surface *img) {
     SDL_Surface          *screen;
     // Set the window to the same size as the image
-    screen = SDL_SetVideoMode(img->w, img->h, 0, SDL_SWSURFACE|SDL_ANYFORMAT);
+    screen = SDL_SetVideoMode(img->w, img->h, 0,
+     SDL_SWSURFACE|SDL_ANYFORMAT);
     if ( screen == NULL ) {
         // error management
         errx(1, "Couldn't set %dx%d video mode: %s\n",
@@ -102,7 +103,7 @@ char** listOfLearning(char* dirName, int *sizeOfList){
             if((listOfName[mySize] = malloc(sizeof(ep->d_name))) == NULL){
                 exit(0);
             }
-            for(unsigned int j = 0; j < sizeof(ep->d_name) / sizeof(char); j++){
+            for(unsigned int j = 0; j < sizeof(ep->d_name)/sizeof(char); j++){
                 listOfName[mySize][j] = (ep->d_name)[j];
             }
             mySize++;

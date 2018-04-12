@@ -41,7 +41,7 @@ public:
                 return v1;
             }
         vector<int> rslt ;
-     //   cout<<"av left: ";
+       // cout<<"av left: ";
       //  v1.pprintf();
     //    cout<<"av right: ";
 //v2.pprintf();
@@ -302,6 +302,12 @@ public:
         Infint str = v2;
         return v1 + str;
     }
+    friend Infint operator+(Infint v1,long long v2)
+    {
+        Infint str = v2;
+        return v1 + str;
+    }
+////////
     friend Infint operator+=(Infint &v1,Infint v2)
     {
         v1 = v1 + v2;
@@ -313,6 +319,13 @@ public:
         v1 = v1 + v2;
         return v1;
     }
+    friend Infint operator+=(Infint &v1,long long v2)
+    {
+        Infint str = v2;
+        v1 = v1 + v2;
+        return v1;
+    }
+////////
     friend Infint operator++(Infint &v1,int)
     {
         v1 = v1 + 1;
@@ -339,13 +352,13 @@ public:
 
 
 
-
+///////
     friend Infint operator--(Infint &v1,int)
     {
         v1 = v1 + -1;
         return v1;
     }
-
+////////
     friend Infint operator*(Infint v1,Infint v2)
     {
      //   cout<<"MULTIPLICATION"<<endl;
@@ -429,6 +442,14 @@ public:
         Infint str = v2;
         return v1 * str;
     }
+    friend Infint operator*(Infint v1,long long v2)
+    {
+        Infint str = v2;
+        return v1 * str;
+    }
+
+
+///////////
     friend Infint operator*=(Infint &v1,Infint v2)
     {
         v1 = v1 * v2;
@@ -436,15 +457,27 @@ public:
     }
     friend Infint operator*=(Infint &v1,string v2)
     {
+        v1 = v1 * v2;
+        return v1;
+    }
+    friend Infint operator*=(Infint &v1,long long v2)
+    {
         Infint str = v2;
         v1 = v1 * str;
         return v1;
     }
+/////////
     friend Infint operator-(Infint v1,string v2)
     {
         Infint str = v2;
-        return v1 - v2;
+        return v1 - str;
     }
+    friend Infint operator-(Infint v1,long long v2)
+    {
+        Infint str = v2;
+        return v1 - str;
+    }
+/////////
     friend Infint operator-=(Infint &v1,Infint v2)
     {
         Infint str = v2;
@@ -457,6 +490,13 @@ public:
         v1 = v1 - str;
         return v1;
     }
+    friend Infint operator-=(Infint &v1,long long v2)
+    {
+        Infint str = v2;
+        v1 = v1 - str;
+        return v1;
+    }
+////////
     friend ostream &operator<<(ostream &flux,Infint const &a)
     {
         vector<int> copy = a.enter;
